@@ -1,5 +1,4 @@
 ﻿using Application;
-using Domain;
 using MediatR;
 
 namespace Infrastructure.Handlers.Task
@@ -20,9 +19,8 @@ namespace Infrastructure.Handlers.Task
 
         public async Task<string> Handle(TaskCreateModel request, CancellationToken cancellationToken)
         {
-            Domain.Task task = new();
+            Domain.Models.Task task = new();
             task.Descryption = request.Descryption;
-            task.Price = request.Price;
             task.Deadline = request.Deadline;
             task.UserId = request.UserId;
             task.Name = request.Name;

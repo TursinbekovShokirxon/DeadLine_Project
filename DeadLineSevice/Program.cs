@@ -1,5 +1,12 @@
 
+using Infrastructure.Contexts;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace DeadLineSevice
 {
@@ -15,6 +22,19 @@ namespace DeadLineSevice
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            var secretKey = builder.Configuration.GetSection("JWTSettings")["SecretKey"];
+            var issuer = builder.Configuration.GetSection("JWTSettings")["Issuer"];
+            var audience = builder.Configuration.GetSection("JWTSettings")["Audience"];
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+
+
+
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseNpgsql(builder.Configuration.GetConnectionString("ShokirsDatabase"));
+            });
 
             builder .Services.AddRateLimiter(_=>
             _.AddFixedWindowLimiter("FixedWindowPolicy",opt=>
@@ -24,7 +44,6 @@ namespace DeadLineSevice
                 opt.QueueLimit = 10;
                 opt.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
             }));
-
             builder.Services.AddRateLimiter(option =>
             {
                 option.AddSlidingWindowLimiter("SlidingWindowPolicy", opt =>

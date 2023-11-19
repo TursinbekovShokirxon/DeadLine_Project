@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace DeadLineSevice.Controllers
 {
-    [ApiController, Route("[controller]")]
+    [ApiController, Route("api/[controller]/[action]")]
     [EnableRateLimiting("FixedWindowPolicy")]
-    public class UserController
+    public class UserController:ControllerBase
     {
         private readonly IMediator _mediator;
         public UserController(IMediator _mediator)

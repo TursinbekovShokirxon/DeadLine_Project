@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0" />
   </ItemGroup>
 
 </Project>

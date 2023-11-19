@@ -1,5 +1,5 @@
 ﻿using Application;
-using Domain;
+using Domain.Models;
 using MediatR;
 
 namespace Infrastructure.Handlers.ForUser

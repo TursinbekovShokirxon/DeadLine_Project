@@ -1,6 +1,8 @@
-﻿using Domain;
+﻿using Domain.Models;
+using Domain.Models.Authtification;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,11 @@ namespace Infrastructure.Contexts
     public class AppDbContext:DbContext
     {
         private readonly IConfiguration _config;
+        public AppDbContext()
+        {
+            
+        }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public AppDbContext(IConfiguration _config)
         {
             this._config = _config;
@@ -20,9 +27,9 @@ namespace Infrastructure.Contexts
         {
             optionsBuilder.UseNpgsql(_config.GetConnectionString("ShokirsDatabase"));
         }
-        public DbSet<Domain.Task> Tasks { get; set; }
+        public DbSet<Domain.Models.Task> Tasks { get; set; }
         public DbSet<User> Users { get; set; }
-
-
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<UserAuth> UserAuthsInformations { get; set; }
     }
 }

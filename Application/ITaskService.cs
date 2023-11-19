@@ -1,11 +1,11 @@
 ﻿namespace Application
 {
-    public interface ITaskService
+    public interface ITaskService: 
+        ICreateService<Domain.Models.Task>,
+        IGetAllService<Domain.Models.Task>,
+        IGetByIdService<Domain.Models.Task>
     {
-        public Task<string> Create(Domain.Task obj);
-        public Task<bool> Update(Domain.Task obj);
-        public Task<Domain.Task> GetById(int id);
-        public IEnumerable<Domain.Task> GetAll();
+        public Task<bool> Update(Domain.Models.Task obj);
         public Task<bool> Delete(int id);
     }
 }

@@ -5,7 +5,7 @@ namespace DeadLineSevice.Controllers
 {
     [ApiController, Route("[controller]")]
     [EnableRateLimiting("FixedWindowPolicy")]
-    public class TaskController 
+    public class TaskController : ControllerBase
     {
     }
 }

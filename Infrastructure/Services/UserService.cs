@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application;
-using Domain;
+using Domain.Models;
 using Infrastructure.Contexts;
 using MediatR;
 

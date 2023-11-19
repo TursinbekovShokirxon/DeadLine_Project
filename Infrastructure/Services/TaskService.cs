@@ -15,11 +15,11 @@ namespace Infrastructure.Services
         }
 
 
-        public async Task<string> Create(Domain.Task obj)
+        public async Task<Domain.Models.Task> Create(Domain.Models.Task obj)
         {
                 await _db.Tasks.AddAsync(obj);
                 await _db.SaveChangesAsync();
-            return "Task created";
+            return obj;
         }
 
         public async Task<bool> Delete(int id)
@@ -33,22 +33,21 @@ namespace Infrastructure.Services
             return true;
         }
 
-        public IEnumerable<Domain.Task> GetAll()
+        public IEnumerable<Domain.Models.Task> GetAll()
         {
             return _db.Tasks.ToList();
         }
 
-        public async Task<Domain.Task> GetById(int id)
+        public async Task<Domain.Models.Task> GetById(int id)
         {
             return await _db.Tasks.FindAsync(id);
         }
 
-        public async Task<bool> Update(Domain.Task obj)
+        public async Task<bool> Update(Domain.Models.Task obj)
         {
-            Domain.Task task = await GetById(obj.Id);
+            Domain.Models.Task task = await GetById(obj.Id);
             if (task == null)
             {
-                task.Price = obj.Price;
                 task.Descryption = obj.Descryption;
                 task.Deadline = obj.Deadline;
                 task.User = obj.User;
