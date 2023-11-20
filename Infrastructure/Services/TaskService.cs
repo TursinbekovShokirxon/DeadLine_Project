@@ -47,12 +47,12 @@ namespace Infrastructure.Services
         {
             Domain.Models.Task task = await GetById(obj.Id);
             if (task == null) return false;
-            
-                task.Descryption = obj.Descryption;
-                task.Deadline = obj.Deadline;
-                task.User = obj.User;
-                _db.Tasks.Update(task);
-                await _db.SaveChangesAsync();
+
+            task.Descryption = obj.Descryption;
+            task.Deadline = obj.Deadline;
+            task.User = obj.User;
+            _db.Tasks.Update(task);
+            await _db.SaveChangesAsync();
             return true;
         }
 

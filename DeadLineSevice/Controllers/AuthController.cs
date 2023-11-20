@@ -27,7 +27,6 @@ namespace DeadLineService.Controllers
             return Ok(user);
         }
 
-        //[Authorize]
         [HttpPost]
         public async Task<ActionResult<string>> Login(UserLoginModel request)
         {
@@ -49,6 +48,14 @@ namespace DeadLineService.Controllers
             }
                 return BadRequest($"Пользователь под именем {request.Username} не найден");
         }
+
+        //[HttpPost("Refresh-Token")]
+        //public async Task<ActionResult<string>> RefreshToken()
+        //{
+        //    var refreshToken = Request.Cookies["refreshToken"];
+
+        //    //if()
+        //}
         private void SetRefreshToken(UserAuth user,RefreshToken refreshToken)
         {
             var cookieOptions = new CookieOptions
