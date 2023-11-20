@@ -4,11 +4,13 @@ using Infrastructure.Handlers.ForAuthentication;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Security.Cryptography;
 
 namespace DeadLineService.Controllers
 {
     [ApiController, Route("api/[controller]/[action]")]
+    [EnableRateLimiting("BucketWindowPolicy")]
     public class AuthController : ControllerBase
     {
         private readonly IMediator _mediator;
