@@ -35,8 +35,26 @@ namespace DeadLineService.Controllers
             else
             {
                 token = _tokenServices.GenerateToken(res);
+                var refreshToken = _tokenServices.GenerateRefreshToken();
+
+                SetRefreshToken(res, refreshToken);
             }
             return Ok(token);
+        }
+        private void SetRefreshToken(UserAuth user,RefreshToken refreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = refreshToken.Expired,
+
+            };
+
+            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+            user.RefreshToken = refreshToken.Token;
+            user.TokenCreated = refreshToken.Created;
+            user.TokenExpires = refreshToken.Expired;
+
         }
 
         [Authorize]

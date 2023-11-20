@@ -1,6 +1,7 @@
 ﻿using Application.InterfacesModelServices;
 using Domain.Models;
 using Domain.Models.Authtification;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,6 +41,25 @@ namespace Application.Clases
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+        public RefreshToken GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshToken
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Expired = DateTime.Now.AddMinutes(15),
+            };
+            return refreshToken;
+        }
+        //public void SetRefreshToken(RefreshToken refreshToken)
+        //{
+        //    var cookieOptions = new CookieOptions
+        //    {
+        //        HttpOnly = true,
+        //        Expires = refreshToken.Expired,
+
+        //    };
+        //    Response.Cookies.Append()
+        //}
 
     }
 }
