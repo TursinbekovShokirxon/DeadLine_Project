@@ -1,6 +1,7 @@
 ﻿using Application.InterfacesModelServices;
 using Domain.Models;
 using Domain.Models.Authtification;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -25,8 +26,7 @@ namespace Application.Clases
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                //new Claim(ClaimTypes.Role, )
+                new Claim(ClaimTypes.Name, user.Username)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTSettings:SecretKey"]));
@@ -40,6 +40,16 @@ namespace Application.Clases
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+        public RefreshToken GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshToken
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Expired = DateTime.Now.AddMinutes(15),
+            };
+            return refreshToken;
+        }
+
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())

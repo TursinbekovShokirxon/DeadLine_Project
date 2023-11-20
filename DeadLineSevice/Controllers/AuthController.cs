@@ -37,20 +37,33 @@ namespace DeadLineService.Controllers
                 byte[] salt = _tokenServices.GenerateSalt();
                 string hashpassword = _tokenServices.HashPassword(request.Password,salt);
                 if (res.PasswordHash == hashpassword)
+                {
+  
                     token = _tokenServices.GenerateToken(res);
+                    
+                    var refreshToken = _tokenServices.GenerateRefreshToken();
+                    
+                    SetRefreshToken(res, refreshToken);
+                }
                 else return BadRequest("Неправильный пароль");
             }
             return Ok(token);
         }
+        private void SetRefreshToken(UserAuth user,RefreshToken refreshToken)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = refreshToken.Expired,
 
-        //private void SetrefreshToken(RefreshToken newRefreshToken)
-        //{
-        //    var cookieOptions = new CookieOptions
-        //    {
-        //        HttpOnly = true,
-        //        Expires = newRefreshToken.Expired,
-        //    };
-        //    Response.Cookies.Add(cookieOptions);
-        //}
+            };
+            
+            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+            user.RefreshToken = refreshToken.Token;
+            user.TokenCreated = refreshToken.Created;
+            user.TokenExpires = refreshToken.Expired;
+
+        }
+
     }
 }
