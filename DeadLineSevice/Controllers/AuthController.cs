@@ -34,22 +34,17 @@ namespace DeadLineService.Controllers
             if (res == null) return BadRequest($"Пользователь под именем {request.Username} не найден");
             else
             {
-                token = _tokenServices.GenerateToken(res);
+                byte[] salt = _tokenServices.GenerateSalt();
+                string hashpassword = _tokenServices.HashPassword(request.Password,salt);
+                if (res.PasswordHash == hashpassword)
+                
+                    token = _tokenServices.GenerateToken(res);
+                
+                else return BadRequest("Неправильный пароль");
             }
             return Ok(token);
         }
 
-        [Authorize]
-        [HttpGet]
-        public RefreshToken GenerateRefreshToken()
-        {
-            var refreshToken = new RefreshToken
-            {
-                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-                Expired = DateTime.Now.AddDays(7),
-            };
-            return refreshToken;
-        }
         //private void SetrefreshToken(RefreshToken newRefreshToken)
         //{
         //    var cookieOptions = new CookieOptions
