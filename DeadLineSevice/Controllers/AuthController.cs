@@ -37,6 +37,10 @@ namespace DeadLineService.Controllers
                 if (_tokenServices.VerifyPassword(request.Password,res.PasswordHash))
                 {
                     token = _tokenServices.GenerateToken(res);
+                    var refreshToken = _tokenServices.GenerateRefreshToken();
+
+                    SetRefreshToken(res, refreshToken);
+
                     return Ok(token);
                 }
                 else return BadRequest("Неправильный пароль");
