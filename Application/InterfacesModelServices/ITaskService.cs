@@ -1,6 +1,8 @@
-﻿namespace Application
+﻿using Application.InterfacesCrudServices;
+
+namespace Application.ModelServices
 {
-    public interface ITaskService: 
+    public interface ITaskService :
         ICreateService<Domain.Models.Task>,
         IGetAllService<Domain.Models.Task>,
         IGetByIdService<Domain.Models.Task>

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application
+namespace Application.InterfacesCrudServices
 {
-    public interface IGetAllService <T>
+    public interface IGetAllService<T>
     {
         public IEnumerable<T> GetAll();
     }

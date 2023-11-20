@@ -13,14 +13,8 @@ namespace Infrastructure.Contexts
 {
     public class AppDbContext:DbContext
     {
-        private readonly IConfiguration _config;
-        public AppDbContext()
-        {
-            
-        }
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-        public AppDbContext(IConfiguration _config)
-        {
+        private readonly IConfiguration _config; 
+        public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration _config) : base(options) {
             this._config = _config;
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

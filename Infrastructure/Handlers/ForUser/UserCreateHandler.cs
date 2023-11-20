@@ -1,10 +1,10 @@
-﻿using Application;
+﻿using Application.ModelServices;
 using Domain.Models;
 using MediatR;
 
 namespace Infrastructure.Handlers.ForUser
 {
-    public class UserCreateModel : IRequest<string>
+    public class UserCreateModel : IRequest<User>
     {
         public string NickName { get; set; } = string.Empty;
         public string Universty { get; set; } = string.Empty;
@@ -13,7 +13,7 @@ namespace Infrastructure.Handlers.ForUser
         public string Budget { get; set; } = string.Empty;
 
     }
-    public class UserCreateHandler : IRequestHandler<UserCreateModel, string>
+    public class UserCreateHandler : IRequestHandler<UserCreateModel, User>
     {
         private readonly IUserService _service;
         public UserCreateHandler(IUserService _service)
@@ -21,7 +21,7 @@ namespace Infrastructure.Handlers.ForUser
             this._service = _service;
         }
 
-        public async Task<string> Handle(UserCreateModel request, CancellationToken cancellationToken)
+        public async Task<User> Handle(UserCreateModel request, CancellationToken cancellationToken)
         {
             User user = new();
             user.NickName = request.NickName;

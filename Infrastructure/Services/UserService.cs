@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application;
+using Application.ModelServices;
 using Domain.Models;
 using Infrastructure.Contexts;
 using MediatR;
@@ -20,12 +20,12 @@ namespace Infrastructure.Services
             _db = db;
         }
 
-        public async Task<string> Create(User obj)
+        public async Task<User> Create(User obj)
         {
             // Логика создания пользователя
             await _db.Users.AddAsync(obj);
             await _db.SaveChangesAsync();
-            return "User created";
+            return obj;
         }
 
         public async Task<bool> Delete(int id)

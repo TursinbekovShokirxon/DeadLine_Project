@@ -1,4 +1,4 @@
-﻿using Application;
+﻿using Application.ModelServices;
 using Domain.Models.Authtification;
 using Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class AuthificationService : IUserAuthService
+    public class AuthenticationService : IUserAuthService
     {
         private readonly AppDbContext _db;
-        public AuthificationService(AppDbContext _db) => this._db = _db;
+        public AuthenticationService(AppDbContext _db) => this._db = _db;
         
         public async Task<UserAuth> Create(UserAuth obj)
         {
@@ -21,10 +21,15 @@ namespace Infrastructure.Services
             await _db.SaveChangesAsync();
             return obj;
         }
-        public async Task<UserAuth> GetById(int Id)
+        public Task<UserAuth?> GetById(int Id)
         {
            var result= GetAll().FirstOrDefault(x=>x.UserId==Id);
-            return result;
+            return Task.FromResult(result);
+        }
+        public  Task<UserAuth?> GetByUsername(string name)
+        {
+            var result =  GetAll().FirstOrDefault(x => x.Username == name);
+            return Task.FromResult(result);
         }
         public IEnumerable<UserAuth> GetAll()
         {

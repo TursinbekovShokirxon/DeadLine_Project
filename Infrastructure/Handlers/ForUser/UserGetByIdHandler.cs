@@ -1,4 +1,4 @@
-﻿using Application;
+﻿using Application.ModelServices;
 using Domain.Models;
 using MediatR;
 
@@ -8,10 +8,10 @@ namespace Infrastructure.Handlers.ForUser
     {
         public int Id { get; set; }
     }
-    public class UserGetByIdService : IRequestHandler<UserGetByIdModel, User>
+    public class UserGetByIdHandler : IRequestHandler<UserGetByIdModel, User>
     {
         private readonly IUserService _service;
-        public UserGetByIdService(IUserService _service)
+        public UserGetByIdHandler(IUserService _service)
         {
             this._service = _service;
         }

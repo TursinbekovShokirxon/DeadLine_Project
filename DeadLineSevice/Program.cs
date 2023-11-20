@@ -1,5 +1,12 @@
 
+using Application.ModelServices;
+using Domain.Models;
+using Domain.Models.Authtification;
 using Infrastructure.Contexts;
+using Infrastructure.Handlers.ForAuthentication;
+using Infrastructure.Handlers.ForUser;
+using Infrastructure.Services;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -27,8 +34,14 @@ namespace DeadLineSevice
             var audience = builder.Configuration.GetSection("JWTSettings")["Audience"];
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-
-
+            builder.Services.AddScoped<ITaskService,TaskService>();
+            builder.Services.AddScoped<IUserService,UserService>();
+            builder.Services.AddScoped<IUserAuthService, Infrastructure.Services.AuthenticationService>();
+            builder.Services.AddTransient<IRequestHandler<UserRegirstrationModel, UserAuth>, UserRegirstrationHandler>();
+            builder.Services.AddTransient<IRequestHandler<UserLoginModel, UserAuth>, UserLoginHandler>();
+            builder.Services.AddTransient<IRequestHandler<UserLoginModel, UserAuth>, UserLoginHandler>();
+            builder.Services.AddTransient<IRequestHandler<UserCreateModel, User>, UserCreateHandler>();
+            builder.Services.AddTransient<IRequestHandler<UserGetByIdModel, User>, UserGetByIdHandler>();
 
 
             builder.Services.AddDbContext<AppDbContext>(options =>

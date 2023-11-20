@@ -1,4 +1,5 @@
-﻿using Infrastructure.Handlers.ForUser;
+﻿using Domain.Models;
+using Infrastructure.Handlers.ForUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
@@ -15,7 +16,7 @@ namespace DeadLineSevice.Controllers
             this._mediator = _mediator;
         }
         [HttpPost]
-        public async Task<string> CreateUser(UserCreateModel user)
+        public async Task<User> CreateUser(UserCreateModel user)
         {
             var res = await _mediator.Send(user);
             return res;
