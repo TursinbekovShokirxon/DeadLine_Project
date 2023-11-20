@@ -13,7 +13,7 @@ namespace Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "UserAuthsInformations",
+                name: "UserAuthifications",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "integer", nullable: false)
@@ -26,7 +26,7 @@ namespace Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserAuthsInformations", x => x.UserId);
+                    table.PrimaryKey("PK_UserAuthifications", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,7 +37,7 @@ namespace Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     NickName = table.Column<string>(type: "text", nullable: false),
                     Universty = table.Column<string>(type: "text", nullable: false),
-                    Course = table.Column<int>(type: "integer", nullable: false),
+                    Course = table.Column<byte>(type: "smallint", nullable: false),
                     Faculty = table.Column<string>(type: "text", nullable: false),
                     Budget = table.Column<string>(type: "text", nullable: false)
                 },
@@ -119,7 +119,7 @@ namespace Infrastructure.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "UserAuthsInformations");
+                name: "UserAuthifications");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

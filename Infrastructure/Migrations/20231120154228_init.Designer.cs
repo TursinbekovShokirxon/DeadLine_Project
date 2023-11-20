@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231120133333_init")]
+    [Migration("20231120154228_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserAuthsInformations");
+                    b.ToTable("UserAuthifications");
                 });
 
             modelBuilder.Entity("Domain.Models.Order", b =>
@@ -127,8 +127,8 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Course")
-                        .HasColumnType("integer");
+                    b.Property<byte>("Course")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Faculty")
                         .IsRequired()

@@ -50,7 +50,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserAuthsInformations");
+                    b.ToTable("UserAuthifications");
                 });
 
             modelBuilder.Entity("Domain.Models.Order", b =>
@@ -124,8 +124,8 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Course")
-                        .HasColumnType("integer");
+                    b.Property<byte>("Course")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Faculty")
                         .IsRequired()
