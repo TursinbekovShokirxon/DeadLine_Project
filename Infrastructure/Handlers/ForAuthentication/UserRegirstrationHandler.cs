@@ -1,6 +1,8 @@
-﻿using Application.ModelServices;
+﻿using Application.InterfacesModelServices;
+using Application.ModelServices;
 using Domain.Models.Authtification;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,34 +12,33 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Handlers.ForAuthentication
 {
-    public class UserRegirstrationModel : IRequest<UserAuth>
+    public class UserRegirstrationModel : IRequest<string>
     {
         public string Username { get; set; }
         public string Password { get; set; }
     }
-    public class UserRegirstrationHandler : IRequestHandler<UserRegirstrationModel, UserAuth>
+    public class UserRegirstrationHandler : IRequestHandler<UserRegirstrationModel, string>
     {
         private readonly IUserAuthService _service;
-        public UserRegirstrationHandler(IUserAuthService _service) =>
+        private readonly ITokenServices _tokenService;
+        public UserRegirstrationHandler(IUserAuthService _service, ITokenServices _tokenService) {
+            this._tokenService = _tokenService;
             this._service = _service;
-        public async Task<UserAuth> Handle(UserRegirstrationModel request, CancellationToken cancellationToken)
+        }
+
+        
+        public async Task<string> Handle(UserRegirstrationModel request, CancellationToken cancellationToken)
         {
             UserAuth userInputInDB = new();
-            CreatePasswordHash(request.Password, out byte[] PasswordHash, out byte[] PasswordSalt);
+            _tokenService.CreatePasswordHash
             userInputInDB.Username = request.Username;
-            userInputInDB.PasswordHash = PasswordHash;
+
             userInputInDB.PasswordSalt = PasswordSalt;
             var userOutputInDB = await _service.Create(userInputInDB);
-            return userOutputInDB;
+            if (userOutputInDB == null) return "Вы уже зарегистрированы в системе";
+            return "Регистрация прошла успешно";
 
         }
-        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
+
     }
 }

@@ -26,8 +26,7 @@ namespace Application.Clases
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                //new Claim(ClaimTypes.Role, )
+                new Claim(ClaimTypes.Name, user.Username)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTSettings:SecretKey"]));
@@ -50,16 +49,32 @@ namespace Application.Clases
             };
             return refreshToken;
         }
-        //public void SetRefreshToken(RefreshToken refreshToken)
-        //{
-        //    var cookieOptions = new CookieOptions
-        //    {
-        //        HttpOnly = true,
-        //        Expires = refreshToken.Expired,
 
-        //    };
-        //    Response.Cookies.Append()
-        //}
-
+        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+        public byte[] GenerateSalt()
+        {
+            byte[] salt = new byte[16]; 
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(salt);
+            }
+            return salt;
+        }
+        public string HashPassword(string password, byte[] salt)
+        {
+            using (var sha256 = new SHA256Managed())
+            {
+                byte[] combinedBytes = Encoding.UTF8.GetBytes(password).Concat(salt).ToArray();
+                byte[] hashedBytes = sha256.ComputeHash(combinedBytes);
+                return Convert.ToBase64String(hashedBytes);
+            }
+        }
     }
 }

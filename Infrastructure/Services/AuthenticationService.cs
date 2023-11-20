@@ -1,12 +1,8 @@
 ﻿using Application.ModelServices;
+using Domain.Models;
 using Domain.Models.Authtification;
 using Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
@@ -17,19 +13,25 @@ namespace Infrastructure.Services
         
         public async Task<UserAuth> Create(UserAuth obj)
         {
-            await _db.UserAuthsInformations.AddAsync(obj);
-            await _db.SaveChangesAsync();
-            return obj;
+            var UserHasInDB = GetByUsername(obj.Username);
+            if (UserHasInDB == null)
+            {
+       
+                await _db.UserAuthsInformations.AddAsync(obj);
+                await _db.SaveChangesAsync();
+                return obj;
+            }
+         return null;
         }
         public Task<UserAuth?> GetById(int Id)
         {
            var result= GetAll().FirstOrDefault(x=>x.UserId==Id);
-            return Task.FromResult(result);
+            return System.Threading.Tasks.Task.FromResult(result);
         }
         public  Task<UserAuth?> GetByUsername(string name)
         {
             var result =  GetAll().FirstOrDefault(x => x.Username == name);
-            return Task.FromResult(result);
+            return System.Threading.Tasks.Task.FromResult(result);
         }
         public IEnumerable<UserAuth> GetAll()
         {
