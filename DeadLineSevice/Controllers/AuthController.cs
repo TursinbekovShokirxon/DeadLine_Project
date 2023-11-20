@@ -31,23 +31,17 @@ namespace DeadLineService.Controllers
         {
             string token;
             UserAuth res = await _mediator.Send(request);
-            if (res == null) return BadRequest($"Пользователь под именем {request.Username} не найден");
-            else
+
+            if (res != null)
             {
-                byte[] salt = _tokenServices.GenerateSalt();
-                string hashpassword = _tokenServices.HashPassword(request.Password,salt);
-                if (res.PasswordHash == hashpassword)
+                if (_tokenServices.VerifyPassword(request.Password,res.PasswordHash))
                 {
-  
                     token = _tokenServices.GenerateToken(res);
-                    
-                    var refreshToken = _tokenServices.GenerateRefreshToken();
-                    
-                    SetRefreshToken(res, refreshToken);
+                    return Ok(token);
                 }
                 else return BadRequest("Неправильный пароль");
             }
-            return Ok(token);
+                return BadRequest($"Пользователь под именем {request.Username} не найден");
         }
         private void SetRefreshToken(UserAuth user,RefreshToken refreshToken)
         {

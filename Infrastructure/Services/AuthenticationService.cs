@@ -16,7 +16,6 @@ namespace Infrastructure.Services
             var UserHasInDB = GetByUsername(obj.Username);
             if (UserHasInDB == null)
             {
-       
                 await _db.UserAuthsInformations.AddAsync(obj);
                 await _db.SaveChangesAsync();
                 return obj;
@@ -28,10 +27,10 @@ namespace Infrastructure.Services
            var result= GetAll().FirstOrDefault(x=>x.UserId==Id);
             return System.Threading.Tasks.Task.FromResult(result);
         }
-        public  Task<UserAuth?> GetByUsername(string name)
+        public  UserAuth GetByUsername(string name)
         {
-            var result =  GetAll().FirstOrDefault(x => x.Username == name);
-            return System.Threading.Tasks.Task.FromResult(result);
+            var result =   GetAll().FirstOrDefault(x => x.Username == name);
+            return result;
         }
         public IEnumerable<UserAuth> GetAll()
         {

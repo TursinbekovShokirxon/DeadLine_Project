@@ -1,4 +1,5 @@
 ﻿using Application.InterfacesModelServices;
+using BCrypt.Net;
 using Domain.Models;
 using Domain.Models.Authtification;
 using Microsoft.AspNetCore.Http;
@@ -49,32 +50,15 @@ namespace Application.Clases
             };
             return refreshToken;
         }
-
-        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
-            {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
+        public bool VerifyPassword(string enteredPassword, string hashedPassword)
+        { 
+            return BCrypt.Net.BCrypt.Verify(enteredPassword, hashedPassword);
         }
-        public byte[] GenerateSalt()
+        public string HashPassword(string password)
         {
-            byte[] salt = new byte[16]; 
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                rng.GetBytes(salt);
-            }
-            return salt;
-        }
-        public string HashPassword(string password, byte[] salt)
-        {
-            using (var sha256 = new SHA256Managed())
-            {
-                byte[] combinedBytes = Encoding.UTF8.GetBytes(password).Concat(salt).ToArray();
-                byte[] hashedBytes = sha256.ComputeHash(combinedBytes);
-                return Convert.ToBase64String(hashedBytes);
-            }
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, salt);
+            return hashedPassword;
         }
     }
 }

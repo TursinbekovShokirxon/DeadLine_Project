@@ -30,10 +30,9 @@ namespace Infrastructure.Handlers.ForAuthentication
         public async Task<string> Handle(UserRegirstrationModel request, CancellationToken cancellationToken)
         {
             UserAuth userInputInDB = new();
-            _tokenService.CreatePasswordHash
+            string Hashpassword =_tokenService.HashPassword(request.Password);
             userInputInDB.Username = request.Username;
-
-            userInputInDB.PasswordSalt = PasswordSalt;
+            userInputInDB.PasswordHash= Hashpassword;
             var userOutputInDB = await _service.Create(userInputInDB);
             if (userOutputInDB == null) return "Вы уже зарегистрированы в системе";
             return "Регистрация прошла успешно";

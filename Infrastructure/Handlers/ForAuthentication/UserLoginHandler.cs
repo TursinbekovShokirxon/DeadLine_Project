@@ -22,7 +22,7 @@ namespace Infrastructure.Handlers.ForAuthentication
 
         public async Task<UserAuth> Handle(UserLoginModel request, CancellationToken cancellationToken)
         {
-          var user =  await _service.GetByUsername(request.Username);
+          var user = _service.GetByUsername(request.Username);
             return user;
         }
     }
