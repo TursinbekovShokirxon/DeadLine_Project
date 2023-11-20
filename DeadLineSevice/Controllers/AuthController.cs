@@ -37,9 +37,7 @@ namespace DeadLineService.Controllers
                 byte[] salt = _tokenServices.GenerateSalt();
                 string hashpassword = _tokenServices.HashPassword(request.Password,salt);
                 if (res.PasswordHash == hashpassword)
-                
                     token = _tokenServices.GenerateToken(res);
-                
                 else return BadRequest("Неправильный пароль");
             }
             return Ok(token);
