@@ -50,9 +50,9 @@ namespace Application.Clases
             };
             return refreshToken;
         }
-        public bool VerifyPassword(string enteredPassword, string hashedPassword)
+        public bool VerifyPassword(string Password, string hashedPassword)
         { 
-            return BCrypt.Net.BCrypt.Verify(enteredPassword, hashedPassword);
+            return BCrypt.Net.BCrypt.Verify(Password, hashedPassword);
         }
         public string HashPassword(string password)
         {
