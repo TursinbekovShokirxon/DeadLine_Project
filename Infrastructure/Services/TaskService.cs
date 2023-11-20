@@ -46,7 +46,7 @@ namespace Infrastructure.Services
         public async Task<bool> Update(Domain.Models.Task obj)
         {
             Domain.Models.Task task = await GetById(obj.Id);
-            if (task == null)
+            if (task != null)
             {
                 task.Descryption = obj.Descryption;
                 task.Deadline = obj.Deadline;
