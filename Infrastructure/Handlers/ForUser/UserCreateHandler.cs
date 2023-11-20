@@ -1,5 +1,6 @@
 ﻿using Application.ModelServices;
 using Domain.Models;
+using Domain.State;
 using MediatR;
 
 namespace Infrastructure.Handlers.ForUser
@@ -8,7 +9,7 @@ namespace Infrastructure.Handlers.ForUser
     {
         public string NickName { get; set; } = string.Empty;
         public string Universty { get; set; } = string.Empty;
-        public int Course { get; set; }
+        public Course Course { get; set; }
         public string Faculty { get; set; } = string.Empty;
         public string Budget { get; set; } = string.Empty;
 

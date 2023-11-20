@@ -16,7 +16,7 @@ namespace Infrastructure.Services
             var UserHasInDB = GetByUsername(obj.Username);
             if (UserHasInDB == null)
             {
-                await _db.UserAuthsInformations.AddAsync(obj);
+                await _db.UserAuthifications.AddAsync(obj);
                 await _db.SaveChangesAsync();
                 return obj;
             }
@@ -34,7 +34,7 @@ namespace Infrastructure.Services
         }
         public IEnumerable<UserAuth> GetAll()
         {
-            var result = _db.UserAuthsInformations;
+            var result = _db.UserAuthifications;
             return  result.AsNoTracking();
         }
     }

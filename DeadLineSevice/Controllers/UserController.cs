@@ -16,10 +16,34 @@ namespace DeadLineSevice.Controllers
             this._mediator = _mediator;
         }
         [HttpPost]
-        public async Task<User> CreateUser(UserCreateModel user)
+        public async Task<ActionResult<User>> CreateUser(UserCreateModel user)
         {
             var res = await _mediator.Send(user);
-            return res;
+            return Ok(res);
+        }
+        [HttpPut]
+        public async Task<ActionResult<string>> UpdateUser(UserUpdateModel user)
+        {
+            var res = await _mediator.Send(user);
+            return Ok(res);
+        }
+        [HttpGet]
+        public async Task<ActionResult<User>> GetByIdUser(UserGetByIdModel user)
+        {
+            var res = await _mediator.Send(user);
+            return Ok(res);
+        }
+        [HttpGet]
+        public async Task<ActionResult<User>> GetAllUser(UserGetAllModel user)
+        {
+            var res = await _mediator.Send(user);
+            return Ok(res);
+        }
+        [HttpDelete]
+        public async Task<ActionResult<User>> DeleteUser([FromForm]UserDeleteModel user)
+        {
+            var res = await _mediator.Send(user);
+            return Ok(res);
         }
     }
 }

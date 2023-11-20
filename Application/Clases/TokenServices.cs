@@ -31,7 +31,7 @@ namespace Application.Clases
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTSettings:SecretKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var expiryInMinutes = Convert.ToDouble(10);
             var token = new JwtSecurityToken(
                 claims: claims,
@@ -50,9 +50,9 @@ namespace Application.Clases
             };
             return refreshToken;
         }
-        public bool VerifyPassword(string enteredPassword, string hashedPassword)
+        public bool VerifyPassword(string Password, string hashedPassword)
         { 
-            return BCrypt.Net.BCrypt.Verify(enteredPassword, hashedPassword);
+            return BCrypt.Net.BCrypt.Verify(Password, hashedPassword);
         }
         public string HashPassword(string password)
         {

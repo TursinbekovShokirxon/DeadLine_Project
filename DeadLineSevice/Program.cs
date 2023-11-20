@@ -61,6 +61,9 @@ namespace DeadLineSevice
             builder.Services.AddTransient<IRequestHandler<UserLoginModel, UserAuth>, UserLoginHandler>();
             builder.Services.AddTransient<IRequestHandler<UserCreateModel, User>, UserCreateHandler>();
             builder.Services.AddTransient<IRequestHandler<UserGetByIdModel, User>, UserGetByIdHandler>();
+            builder.Services.AddTransient<IRequestHandler<UserGetAllModel, IEnumerable<User>>, UserGetAllHandler>();
+            builder.Services.AddTransient<IRequestHandler<UserUpdateModel, string>, UserUpdateHandler>();
+            builder.Services.AddTransient<IRequestHandler<UserDeleteModel, string>, UserDeleteHandler>();
 
 
             builder.Services.AddDbContext<AppDbContext>(options =>

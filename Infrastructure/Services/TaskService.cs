@@ -46,15 +46,14 @@ namespace Infrastructure.Services
         public async Task<bool> Update(Domain.Models.Task obj)
         {
             Domain.Models.Task task = await GetById(obj.Id);
-            if (task != null)
-            {
-                task.Descryption = obj.Descryption;
-                task.Deadline = obj.Deadline;
-                task.User = obj.User;
-                _db.Tasks.Update(task);
-                await _db.SaveChangesAsync();
-            }
-            return task == null ? false : true;
+            if (task == null) return false;
+
+            task.Descryption = obj.Descryption;
+            task.Deadline = obj.Deadline;
+            task.User = obj.User;
+            _db.Tasks.Update(task);
+            await _db.SaveChangesAsync();
+            return true;
         }
 
     }
