@@ -1,6 +1,8 @@
-﻿using Domain.Models.Authtification;
+﻿using Application.InterfacesModelServices;
+using Domain.Models.Authtification;
 using Infrastructure.Handlers.ForAuthentication;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 
@@ -10,9 +12,11 @@ namespace DeadLineService.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public AuthController(IMediator _mediator)
+        private readonly ITokenServices _tokenServices;
+        public AuthController(IMediator mediator,ITokenServices tokenServices)
         {
-            this._mediator = _mediator;
+            _mediator = mediator;
+            _tokenServices = tokenServices;
         }
         [HttpPost]
         public async Task<ActionResult<UserAuth>> Registration(UserRegirstrationModel request)
@@ -21,15 +25,23 @@ namespace DeadLineService.Controllers
             return Ok(user);
         }
 
+        //[Authorize]
         [HttpPost]
-        public async Task<ActionResult<UserAuth>> Login(UserLoginModel request)
+        public async Task<ActionResult<string>> Login(UserLoginModel request)
         {
+            string token;
             UserAuth res = await _mediator.Send(request);
             if (res == null) return BadRequest($"Пользователь под именем {request.Username} не найден");
-            return Ok(res);
+            else
+            {
+                token = _tokenServices.GenerateToken(res);
+            }
+            return Ok(token);
         }
 
-        private RefreshToken GenerateRefreshToken()
+        [Authorize]
+        [HttpGet]
+        public RefreshToken GenerateRefreshToken()
         {
             var refreshToken = new RefreshToken
             {

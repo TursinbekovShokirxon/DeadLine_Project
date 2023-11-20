@@ -12,8 +12,12 @@ using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+using Application.StaticMethods;
 using System.Text;
+using Application.InterfacesModelServices;
+using Application.Clases;
 
 namespace DeadLineSevice
 {
@@ -28,7 +32,21 @@ namespace DeadLineSevice
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
+            });
+
+            builder.Services.AddApplicationService(builder.Configuration);
+
             var secretKey = builder.Configuration.GetSection("JWTSettings")["SecretKey"];
             var issuer = builder.Configuration.GetSection("JWTSettings")["Issuer"];
             var audience = builder.Configuration.GetSection("JWTSettings")["Audience"];
@@ -36,6 +54,7 @@ namespace DeadLineSevice
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
             builder.Services.AddScoped<ITaskService,TaskService>();
             builder.Services.AddScoped<IUserService,UserService>();
+            builder.Services.AddScoped<ITokenServices, TokenServices>();
             builder.Services.AddScoped<IUserAuthService, Infrastructure.Services.AuthenticationService>();
             builder.Services.AddTransient<IRequestHandler<UserRegirstrationModel, UserAuth>, UserRegirstrationHandler>();
             builder.Services.AddTransient<IRequestHandler<UserLoginModel, UserAuth>, UserLoginHandler>();
@@ -88,14 +107,15 @@ namespace DeadLineSevice
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseRateLimiter();
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
 
-            app.UseRateLimiter();
+            app.UseAuthorization();
+
+
 
             app.MapControllers();
 
