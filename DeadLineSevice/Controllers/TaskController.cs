@@ -14,12 +14,10 @@ namespace DeadLineSevice.Controllers
     [EnableRateLimiting("FixedWindowPolicy")]
     public class TaskController : ControllerBase
     {
-        //
         private readonly IMediator _mediator;
-        public TaskController(IMediator mediator)
-        {
+        public TaskController(IMediator mediator) =>
             _mediator = mediator;
-        }
+        
 
         //[Authorize]
         [HttpPost]
@@ -37,10 +35,7 @@ namespace DeadLineSevice.Controllers
             var task = await _mediator.Send(request);
 
             if (task == null)
-            {
                 return BadRequest($"Task с id = {request.Id} не найден");
-            }
-
             return Ok(task);
         }
 

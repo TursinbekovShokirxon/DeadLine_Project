@@ -22,7 +22,6 @@ namespace Infrastructure.Services
 
         public async Task<User> Create(User obj)
         {
-            // Логика создания пользователя
             await _db.Users.AddAsync(obj);
             await _db.SaveChangesAsync();
             return obj;
@@ -31,9 +30,7 @@ namespace Infrastructure.Services
         public async Task<bool> Delete(int id)
         {
             var user = await _db.Users.FindAsync(id);
-            if (user == null)
-                return false;
-
+            if (user == null) return false;
             _db.Users.Remove(user);
             await _db.SaveChangesAsync();
             return true;
@@ -52,10 +49,8 @@ namespace Infrastructure.Services
         public async Task<bool> Update(User obj)
         {
             var user = await GetById(obj.Id);
-            if (user == null)
-                return false;
+            if (user == null) return false;
 
-            // Логика обновления свойств пользователя
             user.NickName = obj.NickName;
             user.Universty = obj.Universty;
             user.Course = obj.Course;
