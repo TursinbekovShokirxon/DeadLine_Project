@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.VisualStudio.Services.DelegatedAuthorization;
 using System.Security.Cryptography;
 
 namespace DeadLineService.Controllers
@@ -42,20 +43,40 @@ namespace DeadLineService.Controllers
 
                     SetRefreshToken(res, refreshToken);
 
-                    return Ok(token);
+                     return Ok(new
+                    {
+                        access_token = token,
+                        token_type = "Bearer",
+                        expires_in = TimeSpan.FromMinutes(10).TotalSeconds,
+                        refresh_token = refreshToken.Token
+                    });
                 }
                 else return BadRequest("Неправильный пароль");
             }
                 return BadRequest($"Пользователь под именем {request.Username} не найден");
         }
 
-        //[HttpPost("Refresh-Token")]
-        //public async Task<ActionResult<string>> RefreshToken()
-        //{
-        //    var refreshToken = Request.Cookies["refreshToken"];
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<string>> RefreshToken(UserAuth user)
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
 
-        //    //if()
-        //}
+            if (!refreshToken.Equals(user.RefreshToken))
+            {
+                return Unauthorized("Этот токен не авторизован");
+            }
+            else 
+            if (user.TokenExpires < DateTime.Now)
+            {
+                return Unauthorized("Время токена истекло");
+            }
+            string Token = _tokenServices.GenerateToken(user);
+            RefreshToken GeneratedRefreshToken = _tokenServices.GenerateRefreshToken();
+            SetRefreshToken(user,GeneratedRefreshToken);
+
+            return Ok(Token);
+            //if()
+        }
         private void SetRefreshToken(UserAuth user,RefreshToken refreshToken)
         {
             var cookieOptions = new CookieOptions

@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 namespace Infrastructure.Handlers.ForAuthentication
 {
     public class UserLoginModel:IRequest<UserAuth> {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public required string Username { get; set; }
+        public required string Password { get; set; }
     }
     public class UserLoginHandler : IRequestHandler<UserLoginModel, UserAuth>
     {

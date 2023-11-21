@@ -27,17 +27,23 @@ namespace Application.Clases
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTSettings:SecretKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var expiryInMinutes = Convert.ToDouble(10);
+
+            //var refreshToken = GenerateRefreshToken();
+            //claims.Add(new Claim("refresh_token", refreshToken.Token));
+
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(10),
+                expires: DateTime.Now.AddMinutes(expiryInMinutes),
                 signingCredentials: creds
-            );
+            ); 
+         
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

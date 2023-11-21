@@ -2,8 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.TeamFoundation.Core.WebApi;
+using Microsoft.VisualStudio.Services.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -36,8 +39,8 @@ namespace Application.StaticMethods
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     //ValidateLifetime = true, // Установите false, если не хотите проверять срок действия токена
-                    //ValidAudience = configuration["JWT:AudienceKey"], // Установите true, если требуется проверка аудитории
-                    //ValidIssuer = configuration["JWT:IssueKey"], // Установите true, если требуется проверка издателя
+                    //ValidAudience = configuration["JWTSettings:AudienceKey"], // Установите true, если требуется проверка аудитории
+                    //ValidIssuer = configuration["JWTSettings:IssueKey"], // Установите true, если требуется проверка издателя
                     //ClockSkew = TimeSpan.Zero // Установите ноль, если не хотите учитывать разницу во времени
                 };
                 #region

@@ -91,8 +91,8 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("Deadline")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Descryption")
                         .IsRequired()

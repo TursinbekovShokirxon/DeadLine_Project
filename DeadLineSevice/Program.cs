@@ -58,6 +58,7 @@ namespace DeadLineSevice
             builder.Services.AddScoped<IUserService,UserService>();
             builder.Services.AddScoped<ITokenServices, TokenServices>();
             builder.Services.AddScoped<IUserAuthService, Infrastructure.Services.AuthenticationService>();
+            builder.Services.AddScoped<ITaskStatusService, TaskStatusService>();
 
             builder.Services.AddTransient<IRequestHandler<UserRegirstrationModel, string>, UserRegirstrationHandler>();
             builder.Services.AddTransient<IRequestHandler<UserLoginModel, UserAuth>, UserLoginHandler>();

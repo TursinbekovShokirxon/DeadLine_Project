@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231121093141_initDb")]
-    partial class initDb
+    [Migration("20231121113440_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,8 +94,8 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("Deadline")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Descryption")
                         .IsRequired()

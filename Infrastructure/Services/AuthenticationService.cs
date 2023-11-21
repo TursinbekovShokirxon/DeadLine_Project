@@ -11,7 +11,7 @@ namespace Infrastructure.Services
         private readonly AppDbContext _db;
         public AuthenticationService(AppDbContext _db) => this._db = _db;
         
-        public async Task<UserAuth> Create(UserAuth obj)
+        public async Task<UserAuth?> Create(UserAuth obj)
         {
             var UserHasInDB = GetByUsername(obj.Username);
             if (UserHasInDB == null)
