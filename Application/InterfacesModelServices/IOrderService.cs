@@ -13,5 +13,6 @@ namespace Application.InterfacesModelServices
         IGetAllService<Order>, 
         IGetByIdService<Order>
     {
+
     }
 }
