@@ -1,10 +1,11 @@
-﻿using Domain.Models;
+﻿using Application.InterfacesModelServices;
+using Domain.Models;
 using Infrastructure.Contexts;
 using MediatR;
 
 namespace Infrastructure.Services
 {
-    public class OrderService
+    public class OrderService:IOrderService
     {
 
         private readonly AppDbContext _db;

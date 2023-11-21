@@ -8,7 +8,7 @@ namespace Infrastructure.Handlers.ForTask
         public string Name { get; set; } = string.Empty;
         public string Descryption { get; set; } = string.Empty;
         public string Price { get; set; } = string.Empty;
-        public DateOnly Deadline { get; set; }
+        public DateTime Deadline { get; set; }
         public int UserId { get; set; }
     }
     public class TaskCreateHandler : IRequestHandler<TaskCreateModel, Domain.Models.Task>

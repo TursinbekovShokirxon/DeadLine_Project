@@ -18,6 +18,7 @@ using Application.StaticMethods;
 using System.Text;
 using Application.InterfacesModelServices;
 using Application.Clases;
+using Infrastructure.Handlers.ForTask;
 
 namespace DeadLineSevice
 {
@@ -53,6 +54,7 @@ namespace DeadLineSevice
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
             builder.Services.AddScoped<ITaskService,TaskService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IUserService,UserService>();
             builder.Services.AddScoped<ITokenServices, TokenServices>();
             builder.Services.AddScoped<IUserAuthService, Infrastructure.Services.AuthenticationService>();
@@ -64,6 +66,8 @@ namespace DeadLineSevice
             builder.Services.AddTransient<IRequestHandler<UserGetAllModel, IEnumerable<User>>, UserGetAllHandler>();
             builder.Services.AddTransient<IRequestHandler<UserUpdateModel, string>, UserUpdateHandler>();
             builder.Services.AddTransient<IRequestHandler<UserDeleteModel, string>, UserDeleteHandler>();
+
+            builder.Services.AddTransient<IRequestHandler<TaskCreateModel, Domain.Models.Task>, TaskCreateHandler>();
 
 
             builder.Services.AddDbContext<AppDbContext>(options =>
