@@ -13,7 +13,7 @@ namespace Domain.Models
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Descryption { get; set; } = string.Empty;
-        public DateOnly Deadline { get; set; }
+        public DateTime Deadline { get; set; }
 
         public int TaskStatusId { get; set; }
         public TaskStatus? TaskStatus { get; set; }

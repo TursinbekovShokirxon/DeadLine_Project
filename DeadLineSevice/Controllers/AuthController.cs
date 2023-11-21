@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 namespace DeadLineService.Controllers
 {
     [ApiController, Route("api/[controller]/[action]")]
-    [EnableRateLimiting("BucketWindowPolicy")]
+    //[EnableRateLimiting("BucketWindowPolicy")]
     public class AuthController : ControllerBase
     {
         private readonly IMediator _mediator;

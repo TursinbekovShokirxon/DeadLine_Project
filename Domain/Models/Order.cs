@@ -6,7 +6,7 @@ namespace Domain.Models
     {
         [Key]
         public int Id { get; set; }
-        public DateTime dategiven { get; set; }
+        public DateTime dateCreated { get; set; }=DateTime.Now;
         public string Price { get; set; } = string.Empty;
 
         public int TaskId { get; set; }

@@ -19,7 +19,7 @@ using System.Text;
 using Application.InterfacesModelServices;
 using Application.Clases;
 using Infrastructure.Handlers.ForTaskStatuses;
-
+using Infrastructure.Handlers.ForTask;
 namespace DeadLineSevice
 {
     public class Program
@@ -54,6 +54,7 @@ namespace DeadLineSevice
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
             builder.Services.AddScoped<ITaskService,TaskService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IUserService,UserService>();
             builder.Services.AddScoped<ITokenServices, TokenServices>();
             builder.Services.AddScoped<IUserAuthService, Infrastructure.Services.AuthenticationService>();
@@ -73,6 +74,8 @@ namespace DeadLineSevice
             builder.Services.AddTransient<IRequestHandler<TaskStatusGetAllModel, IEnumerable<Domain.Models.TaskStatus>>, TaskStatusGetAllHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusGetByIdModel, Domain.Models.TaskStatus>, TaskStatusGetByIdHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusUpdateModel, bool>, TaskStatusUpdateHandler>();
+
+            builder.Services.AddTransient<IRequestHandler<TaskCreateModel, Domain.Models.Task>, TaskCreateHandler>();
 
 
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -100,6 +103,7 @@ namespace DeadLineSevice
                     opt.SegmentsPerWindow = 5;
                 });
             });
+            
             builder.Services.AddRateLimiter(option =>
             {
                 option.AddTokenBucketLimiter("BucketWindowPolicy", opt =>

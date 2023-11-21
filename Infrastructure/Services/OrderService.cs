@@ -1,10 +1,11 @@
-﻿using Domain.Models;
+﻿using Application.InterfacesModelServices;
+using Domain.Models;
 using Infrastructure.Contexts;
 using MediatR;
 
 namespace Infrastructure.Services
 {
-    public class OrderService
+    public class OrderService:IOrderService
     {
 
         private readonly AppDbContext _db;
@@ -49,7 +50,7 @@ namespace Infrastructure.Services
             Order additionalEntity = await GetById(obj.Id);
             if (additionalEntity == null) return false;
 
-            additionalEntity.dategiven = obj.dategiven;
+            additionalEntity.dateCreated = obj.dateCreated;
             additionalEntity.Price = obj.Price;
             additionalEntity.TaskId = obj.TaskId;
             additionalEntity.Task = obj.Task;
