@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Handlers.ForOrders
+namespace Application.InterfacesModelServices
 {
-    public class OrderCreateHandler
+    internal interface IOrderService
     {
     }
 }
