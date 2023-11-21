@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Handlers.ForOrders
 {
-    public class OrderCreateModel : IRequest<> 
+    public class OrderCreateModel : IRequest<>
     {
 
     }
-
     public class OrderCreateHandler:IRequestHandler<>
     {
 
