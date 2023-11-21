@@ -8,7 +8,7 @@ namespace Application.InterfacesModelServices
         IGetAllService<Order>, 
         IGetByIdService<Order>
     {
-        public Task<bool> Update(Order);
+        public Task<bool> Update(Order obj);
         public Task<bool> Delete(int id);
     }
 }

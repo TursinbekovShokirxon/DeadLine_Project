@@ -18,6 +18,7 @@ using Application.StaticMethods;
 using System.Text;
 using Application.InterfacesModelServices;
 using Application.Clases;
+using Infrastructure.Handlers.ForTaskStatuses;
 
 namespace DeadLineSevice
 {
@@ -56,6 +57,7 @@ namespace DeadLineSevice
             builder.Services.AddScoped<IUserService,UserService>();
             builder.Services.AddScoped<ITokenServices, TokenServices>();
             builder.Services.AddScoped<IUserAuthService, Infrastructure.Services.AuthenticationService>();
+
             builder.Services.AddTransient<IRequestHandler<UserRegirstrationModel, string>, UserRegirstrationHandler>();
             builder.Services.AddTransient<IRequestHandler<UserLoginModel, UserAuth>, UserLoginHandler>();
             builder.Services.AddTransient<IRequestHandler<UserLoginModel, UserAuth>, UserLoginHandler>();
@@ -64,6 +66,13 @@ namespace DeadLineSevice
             builder.Services.AddTransient<IRequestHandler<UserGetAllModel, IEnumerable<User>>, UserGetAllHandler>();
             builder.Services.AddTransient<IRequestHandler<UserUpdateModel, string>, UserUpdateHandler>();
             builder.Services.AddTransient<IRequestHandler<UserDeleteModel, string>, UserDeleteHandler>();
+            builder.Services.AddTransient<IRequestHandler<UserDeleteModel, string>, UserDeleteHandler>();
+
+            builder.Services.AddTransient<IRequestHandler<TaskStatusCreateModel, bool>, TaskStatusCreateHandler>();
+            builder.Services.AddTransient<IRequestHandler<TaskStatusDeleteModel, bool>, TaskStatusDeleteHandler>();
+            builder.Services.AddTransient<IRequestHandler<TaskStatusGetAllModel, IEnumerable<Domain.Models.TaskStatus>>, TaskStatusGetAllHandler>();
+            builder.Services.AddTransient<IRequestHandler<TaskStatusGetByIdModel, Domain.Models.TaskStatus>, TaskStatusGetByIdHandler>();
+            builder.Services.AddTransient<IRequestHandler<TaskStatusUpdateModel, bool>, TaskStatusUpdateHandler>();
 
 
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -104,7 +113,7 @@ namespace DeadLineSevice
             });
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
