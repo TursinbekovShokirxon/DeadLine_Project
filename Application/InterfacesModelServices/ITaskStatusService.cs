@@ -13,5 +13,7 @@ namespace Application.InterfacesModelServices
         IGetAllService<Domain.Models.TaskStatus>,
         IGetByIdService<Domain.Models.TaskStatus>
     {
+        public  Task<bool> Update(Domain.Models.TaskStatus obj);
+        public Task<bool> Delete(int id);
     }
 }

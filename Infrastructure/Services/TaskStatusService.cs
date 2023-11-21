@@ -1,10 +1,11 @@
-﻿using Infrastructure.Contexts;
+﻿using Application.InterfacesModelServices;
+using Infrastructure.Contexts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
-    public class TaskStatusService
+    public class TaskStatusService:ITaskStatusService
     {
         private readonly AppDbContext _db;
         private readonly IMediator _mediator;
@@ -62,7 +63,4 @@ namespace Infrastructure.Services
             return true;
         }
     }
-}
-
-}
 }

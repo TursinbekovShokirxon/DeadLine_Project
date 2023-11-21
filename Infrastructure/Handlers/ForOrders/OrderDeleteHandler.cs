@@ -1,5 +1,6 @@
 ﻿using Application.InterfacesModelServices;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,8 @@ namespace Infrastructure.Handlers.ForOrders
         }
         public Task<bool> Handle(OrderDeleteModel request, CancellationToken cancellationToken)
         {
-            var orderDelete = _orderService.
+            //var orderDelete = _orderService.
+            throw new NotImplementedException();
         }
     }
 }
