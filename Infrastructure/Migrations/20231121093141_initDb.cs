@@ -7,11 +7,24 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class initDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "TaskStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    StatusName = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskStatuses", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "UserAuthifications",
                 columns: table => new
@@ -55,11 +68,18 @@ namespace Infrastructure.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Descryption = table.Column<string>(type: "text", nullable: false),
                     Deadline = table.Column<DateOnly>(type: "date", nullable: false),
+                    TaskStatusId = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tasks_TaskStatuses_TaskStatusId",
+                        column: x => x.TaskStatusId,
+                        principalTable: "TaskStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Tasks_Users_UserId",
                         column: x => x.UserId,
@@ -74,7 +94,7 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    dategiven = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    dateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Price = table.Column<string>(type: "text", nullable: false),
                     TaskId = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false)
@@ -107,6 +127,11 @@ namespace Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tasks_TaskStatusId",
+                table: "Tasks",
+                column: "TaskStatusId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tasks_UserId",
                 table: "Tasks",
                 column: "UserId");
@@ -123,6 +148,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tasks");
+
+            migrationBuilder.DropTable(
+                name: "TaskStatuses");
 
             migrationBuilder.DropTable(
                 name: "Users");

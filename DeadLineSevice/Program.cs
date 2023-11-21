@@ -91,6 +91,7 @@ namespace DeadLineSevice
                     opt.SegmentsPerWindow = 5;
                 });
             });
+            
             builder.Services.AddRateLimiter(option =>
             {
                 option.AddTokenBucketLimiter("BucketWindowPolicy", opt =>

@@ -25,8 +25,9 @@ namespace Infrastructure.Handlers.ForOrders
         }
         public Task<bool> Handle(OrderDeleteModel request, CancellationToken cancellationToken)
         {
-            //var orderDelete = _orderService.
-            throw new NotImplementedException();
+            var orderDelete = _orderService.Delete(request.Id);
+
+            return orderDelete;
         }
     }
 }
