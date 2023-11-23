@@ -32,9 +32,11 @@ namespace DeadLineSevice.Controllers
             return Ok(res);
         }
 
+
         [HttpGet]
         public async Task<ActionResult<User>> GetByIdUser(UserGetByIdModel user)
         {
+
             var res = await _mediator.Send(user);
             return Ok(res);
         }
