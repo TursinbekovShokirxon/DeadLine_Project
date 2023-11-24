@@ -17,7 +17,6 @@ namespace Domain.Models
         public Course Course { get; set; }
         public string Faculty { get; set; } = string.Empty;
         public string Budget { get; set; } = string.Empty;
-
         public ICollection<Task>? Tasks { get; set; }
 
     }

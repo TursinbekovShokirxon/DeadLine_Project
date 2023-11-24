@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }=string.Empty;
-        public ICollection<User> UserAuthes { get; set; }
+        public virtual ICollection<User> UserAuthes { get; set; }
+        public virtual ICollection<Permission> Permissions { get; set; }
     }
 }
