@@ -22,6 +22,28 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Models.Authtification.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("UserAuthUserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserAuthUserId");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("Domain.Models.Authtification.UserAuth", b =>
                 {
                     b.Property<int>("UserId")
@@ -157,13 +179,25 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Universty")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Domain.Models.Authtification.Role", b =>
+                {
+                    b.HasOne("Domain.Models.Authtification.UserAuth", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UserAuthUserId");
                 });
 
             modelBuilder.Entity("Domain.Models.Order", b =>
@@ -202,6 +236,23 @@ namespace Infrastructure.Migrations
                     b.Navigation("TaskStatus");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Models.User", b =>
+                {
+                    b.HasOne("Domain.Models.Authtification.Role", null)
+                        .WithMany("UserAuthes")
+                        .HasForeignKey("RoleId");
+                });
+
+            modelBuilder.Entity("Domain.Models.Authtification.Role", b =>
+                {
+                    b.Navigation("UserAuthes");
+                });
+
+            modelBuilder.Entity("Domain.Models.Authtification.UserAuth", b =>
+                {
+                    b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("Domain.Models.User", b =>
