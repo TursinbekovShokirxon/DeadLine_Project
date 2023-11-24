@@ -1,4 +1,5 @@
-﻿using Domain.Models.Authtification;
+﻿using Application.InterfacesModelServices;
+using Domain.Models.Authtification;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,26 @@ namespace Infrastructure.Handlers.ForRoles
     }
     public class UpdateRoleHandler : IRequestHandler<UpdateRoleModel, Role>
     {
-        public Task<Role> Handle(UpdateRoleModel request, CancellationToken cancellationToken)
+        private readonly IRoleService _roleService;
+
+        public UpdateRoleHandler(IRoleService roleService)
         {
-            throw new NotImplementedException();
+            _roleService = roleService;
+        }
+
+        public async Task<Role> Handle(UpdateRoleModel request, CancellationToken cancellationToken)
+        {
+            Role role = new()
+            {
+                  Id = request.Id,
+                  Name = request.Name,
+                  UserAuthes = request.UserAuthes,
+                  Permissions = request.Permissions
+            };
+            Role update = await _roleService.Update(role);
+
+            return role;
+
         }
     }
 }
