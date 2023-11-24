@@ -22,6 +22,7 @@ namespace DeadLineService.Controllers
             _tokenServices = tokenServices;
         }
         [HttpPost]
+        [Authorize(Roles = "Registration")]
         public async Task<ActionResult<UserAuth>> Registration(UserRegirstrationModel request)
         {
             var user = await _mediator.Send(request);
@@ -29,6 +30,7 @@ namespace DeadLineService.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Login")]
         public async Task<ActionResult<string>> Login(UserLoginModel request)
         {
             string token;
@@ -55,6 +57,7 @@ namespace DeadLineService.Controllers
             }
                 return BadRequest($"Пользователь под именем {request.Username} не найден");
         }
+
 
         [HttpPost("refresh-token")]
         //[Authorize]
