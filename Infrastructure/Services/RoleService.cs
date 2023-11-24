@@ -41,9 +41,12 @@ namespace Infrastructure.Services
             return  GetAll().FirstOrDefault(x => x.Id == Id);
         }
 
-        public Task<Role> Update(Role obj)
+        public async Task<Role> Update(Role obj)
         {
-            
+            Role role = new();
+            _db.Roles.Update(role);
+            _db.SaveChanges();
+            return obj;
         }
     }
 }
