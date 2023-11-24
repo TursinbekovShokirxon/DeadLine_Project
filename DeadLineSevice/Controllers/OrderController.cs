@@ -12,10 +12,7 @@ namespace DeadLineService.Controllers
     {
         private readonly IMediator _mediator;
 
-        public OrderController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public OrderController(IMediator mediator) => _mediator = mediator;
 
         [HttpPost]
         public async Task<ActionResult<string>> OrderCreate(OrderCreateModel request)
