@@ -18,5 +18,4 @@ namespace Infrastructure.Handlers.ForRoles
             return res;
         }
     }
-
 }
