@@ -69,6 +69,7 @@ namespace DeadLineSevice
             builder.Services.AddScoped<IUserAuthService, Infrastructure.Services.AuthenticationService>();
             builder.Services.AddScoped<ITaskStatusService, TaskStatusService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddSingleton<IPermissionForRoleService, PermissionForRoleService>();
             builder.Services.AddScoped<IPermissionService, PermissionService>();
 
 

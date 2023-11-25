@@ -10,8 +10,8 @@ namespace Application.CustomeAuth
 {
     public class HasPermissionAttribute:AuthorizeAttribute
     {
-        public HasPermissionAttribute(Permission permission)
-            :base(policy: permission.ToString())
+        public HasPermissionAttribute(/*Permission permission*/string permission)
+            :base(policy: permission)
         {
 
         }
