@@ -20,6 +20,9 @@ using Application.InterfacesModelServices;
 using Application.Clases;
 using Infrastructure.Handlers.ForTaskStatuses;
 using Infrastructure.Handlers.ForTask;
+using Infrastructure.Handlers.ForPermission;
+using Infrastructure.Handlers.ForRoles;
+
 namespace DeadLineSevice
 {
     public class Program
@@ -59,6 +62,9 @@ namespace DeadLineSevice
             builder.Services.AddScoped<ITokenServices, TokenServices>();
             builder.Services.AddScoped<IUserAuthService, Infrastructure.Services.AuthenticationService>();
             builder.Services.AddScoped<ITaskStatusService, TaskStatusService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IPermissionService, PermissionService>();
+
 
             builder.Services.AddTransient<IRequestHandler<UserRegirstrationModel, string>, UserRegirstrationHandler>();
             builder.Services.AddTransient<IRequestHandler<UserLoginModel, UserAuth>, UserLoginHandler>();
@@ -69,12 +75,15 @@ namespace DeadLineSevice
             builder.Services.AddTransient<IRequestHandler<UserUpdateModel, string>, UserUpdateHandler>();
             builder.Services.AddTransient<IRequestHandler<UserDeleteModel, string>, UserDeleteHandler>();
             builder.Services.AddTransient<IRequestHandler<UserDeleteModel, string>, UserDeleteHandler>();
+            builder.Services.AddTransient<IRequestHandler<PerMissionGetAllModel, IEnumerable<Permission>>, PermissionGetAllHandler>();
 
             builder.Services.AddTransient<IRequestHandler<TaskStatusCreateModel, bool>, TaskStatusCreateHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusDeleteModel, bool>, TaskStatusDeleteHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusGetAllModel, IEnumerable<Domain.Models.TaskStatus>>, TaskStatusGetAllHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusGetByIdModel, Domain.Models.TaskStatus>, TaskStatusGetByIdHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusUpdateModel, bool>, TaskStatusUpdateHandler>();
+            builder.Services.AddTransient<IRequestHandler<GetAllRoleModel, IEnumerable<Role>>,GetAllHandler>();
+
 
             builder.Services.AddTransient<IRequestHandler<TaskCreateModel, Domain.Models.Task>, TaskCreateHandler>();
 

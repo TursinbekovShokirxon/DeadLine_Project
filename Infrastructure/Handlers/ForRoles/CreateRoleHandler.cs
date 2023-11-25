@@ -13,7 +13,7 @@ namespace Infrastructure.Handlers.ForRoles
     public class CreateRoleModel:IRequest<Role>
     {
         public string Name { get; set; } = string.Empty;
-        public virtual ICollection<Permission>? Permissions { get; set; }
+        public ICollection<Permission>? Permissions { get; set; }
     }
     public class CreateRoleHandler : IRequestHandler<CreateRoleModel, Role>
     {

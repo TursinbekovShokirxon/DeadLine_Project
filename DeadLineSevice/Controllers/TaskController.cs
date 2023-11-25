@@ -29,7 +29,7 @@ namespace DeadLineSevice.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         public async Task<ActionResult<Domain.Models.Task>> TaskGetByIdAsync(TaskGetByIdModel request)
         {
             var task = await _mediator.Send(request);
