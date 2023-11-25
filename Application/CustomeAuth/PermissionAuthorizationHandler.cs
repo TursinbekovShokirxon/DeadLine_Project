@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,6 +12,13 @@ namespace Application.CustomeAuth
     public class PermissionAuthorizationHandler
         : AuthorizationHandler<PermissionRequirement>
     {
+        private readonly IServiceScopeFactory _serviceScopeFactory;
+
+        public PermissionAuthorizationHandler(IServiceScopeFactory serviceScopeFactory)
+        {
+            _serviceScopeFactory = serviceScopeFactory;
+        }
+
         protected override async Task HandleRequirementAsync(
             AuthorizationHandlerContext context, 
             PermissionRequirement requirement)
@@ -22,6 +30,18 @@ namespace Application.CustomeAuth
             {
                 return;
             }
+
+            using IServiceScope scope = _serviceScopeFactory.CreateScope();
+
+            IPermissionService permissionService = scope.ServiceProvider
+                .GetRequiredService<IPermissionService>();
+
+            var permission = await permissionService.GetPermissionAsync(parsememberId);
+
+            if (permission.Contains(requirement.Permission)) {
+                context.Succeed(requirement);
+            }
+
         }
     }
 }
