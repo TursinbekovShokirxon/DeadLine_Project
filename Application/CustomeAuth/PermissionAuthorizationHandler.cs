@@ -33,8 +33,8 @@ namespace Application.CustomeAuth
 
             using IServiceScope scope = _serviceScopeFactory.CreateScope();
 
-            IPermissionService permissionService = scope.ServiceProvider
-                .GetRequiredService<IPermissionService>();
+            IPermissionForRoleService permissionService = scope.ServiceProvider
+                .GetRequiredService<IPermissionForRoleService>();
 
             var permission = await permissionService.GetPermissionAsync(parsememberId);
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.CustomeAuth
 {
-    public interface IPermissionService
+    public interface IPermissionForRoleService
     {
         Task<HashSet<string>> GetPermissionAsync(Guid memberId);
     } 
