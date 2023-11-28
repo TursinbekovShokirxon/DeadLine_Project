@@ -40,8 +40,9 @@ namespace DeadLineSevice.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Domain.Models.Task>> TaskGetAll(TaskGetAllModel request)
+        public async Task<ActionResult<Domain.Models.Task>> TaskGetAll()
         {
+            TaskGetAllModel request = new();
             var taskList = _mediator.Send(request);
             
             if(taskList == null)  return BadRequest(taskList);

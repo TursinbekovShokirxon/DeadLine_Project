@@ -14,7 +14,8 @@ namespace DeadLineService.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async  Task<IEnumerable<Permission>> GetAll(PerMissionGetAllModel obj) {
+        public async  Task<IEnumerable<Permission>> GetAll() {
+            PerMissionGetAllModel obj = new();
         var res= await _mediator.Send(obj);
             return res;
         }

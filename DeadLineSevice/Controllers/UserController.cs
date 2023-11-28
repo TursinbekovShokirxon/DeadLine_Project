@@ -42,8 +42,9 @@ namespace DeadLineSevice.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<User>> GetAllUser(UserGetAllModel user)
+        public async Task<ActionResult<User>> GetAllUser()
         {
+            UserGetAllModel user = new();
             var res = await _mediator.Send(user);
             return Ok(res);
         }
