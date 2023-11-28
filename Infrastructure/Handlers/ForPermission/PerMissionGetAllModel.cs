@@ -12,9 +12,9 @@ namespace Infrastructure.Handlers.ForPermission
         {
              _service=service;
         }
-        Task<IEnumerable<Permission>> IRequestHandler<PerMissionGetAllModel, IEnumerable<Permission>>.Handle(PerMissionGetAllModel request, CancellationToken cancellationToken)
+        async Task<IEnumerable<Permission>> IRequestHandler<PerMissionGetAllModel, IEnumerable<Permission>>.Handle(PerMissionGetAllModel request, CancellationToken cancellationToken)
         {
-            return (Task<IEnumerable<Permission>>)_service.GetAll();
+            return _service.GetAll();
         }
     }
 

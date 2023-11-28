@@ -36,7 +36,8 @@ namespace DeadLineService.Controllers
         public async Task<ActionResult<string>> Login(UserLoginModel request)
         {
             string token;
-            UserAuth res = await _mediator.Send(request);
+            UserAuth res= new();
+            res = await _mediator.Send(request);
 
             if (res != null)
             {
@@ -62,8 +63,8 @@ namespace DeadLineService.Controllers
 
 
         [HttpPost("refresh-token")]
-        [HasPermission("Registration")]
         //[Authorize]
+        
         public async Task<ActionResult<string>> RefreshToken(UserAuth user)
         {
             var refreshToken = Request.Cookies["refreshToken"];

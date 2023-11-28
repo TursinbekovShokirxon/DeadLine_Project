@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.VisualStudio.Services.Notifications.VssNotificationEvent;
 
 namespace Application.Clases
 {
@@ -38,8 +39,8 @@ namespace Application.Clases
                 claims.Add(new Claim(ClaimTypes.Role, role.Name));
             }
 
-            var refreshToken = GenerateRefreshToken();
-            claims.Add(new Claim("refresh_token", refreshToken.Token));
+            //var refreshToken = GenerateRefreshToken();
+            //claims.Add(new Claim("refresh_token", refreshToken.Token));
 
             var token = new JwtSecurityToken(
                 claims: claims,

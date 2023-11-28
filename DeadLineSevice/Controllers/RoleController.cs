@@ -1,4 +1,5 @@
-﻿using Domain.Models.Authtification;
+﻿using Application.CustomeAuth;
+using Domain.Models.Authtification;
 using Infrastructure.Handlers.ForRoles;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,7 @@ namespace DeadLineService.Controllers
         }
 
         [HttpGet]
+        [HasPermission("Registration")]
         public async Task<IEnumerable<Role>> GetAllRole()
         {
             GetAllRoleModel obj = new();

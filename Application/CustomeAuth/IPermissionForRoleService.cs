@@ -8,6 +8,6 @@ namespace Application.CustomeAuth
 {
     public interface IPermissionForRoleService
     {
-        Task<HashSet<string>> GetPermissionAsync(Guid memberId);
+        Task<HashSet<string>> GetPermissionAsync(int memberId);
     } 
 }

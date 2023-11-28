@@ -27,17 +27,17 @@ namespace Application.CustomeAuth
                 x => x.Type == JwtRegisteredClaimNames.Sub
                 )?.Value;
             await Console.Out.WriteLineAsync(context.User.Identity.Name);
-            if (!Guid.TryParse(memberId, out Guid parsememberId) )
-            {
-                return;
-            }
+            //if (!Guid.TryParse(memberId, out Guid parsememberId) )
+            //{
+            //    return;
+            //}
 
             using IServiceScope scope = _serviceScopeFactory.CreateScope();
 
             IPermissionForRoleService permissionService = scope.ServiceProvider
                 .GetRequiredService<IPermissionForRoleService>();
 
-            var permission = await permissionService.GetPermissionAsync(parsememberId);
+            var permission = await permissionService.GetPermissionAsync(2);
 
             if (permission.Contains(requirement.Permission)) {
                 context.Succeed(requirement);

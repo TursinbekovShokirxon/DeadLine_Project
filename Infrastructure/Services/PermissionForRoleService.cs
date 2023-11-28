@@ -14,12 +14,16 @@ namespace Infrastructure.Services
     public class PermissionForRoleService : IPermissionForRoleService
     {
         private readonly AppDbContext _db;
-        public async Task<HashSet<string>> GetPermissionAsync(Guid memberId)
+        public PermissionForRoleService(AppDbContext db)
         {
-            ICollection<Role>[] roles = await _db.Set<UserAuth>()
+            _db = db;
+        }
+        public async Task<HashSet<string>> GetPermissionAsync(int memberId)
+        {
+            ICollection<Role>[] roles = await _db.UserAuthifications
+                .Where(x => x.UserId == 2)
                 .Include(x => x.Roles)
                 .ThenInclude(x => x.Permissions)
-                .Where(x => x.UserId == 1)
                 .Select(x => x.Roles)
                 .ToArrayAsync();
 
