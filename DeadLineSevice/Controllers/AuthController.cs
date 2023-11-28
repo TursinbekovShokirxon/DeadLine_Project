@@ -1,4 +1,5 @@
-﻿using Application.InterfacesModelServices;
+﻿using Application.CustomeAuth;
+using Application.InterfacesModelServices;
 using Domain.Models.Authtification;
 using Infrastructure.Handlers.ForAuthentication;
 using MediatR;
@@ -22,7 +23,8 @@ namespace DeadLineService.Controllers
             _tokenServices = tokenServices;
         }
         [HttpPost]
-        [Authorize(Roles = "Registration")]
+        //[Authorize]
+        //[HasPermission("Registration")]
         public async Task<ActionResult<UserAuth>> Registration(UserRegirstrationModel request)
         {
             var user = await _mediator.Send(request);
@@ -30,7 +32,7 @@ namespace DeadLineService.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Login")]
+        //[Authorize(Roles = "Login")]
         public async Task<ActionResult<string>> Login(UserLoginModel request)
         {
             string token;
@@ -60,6 +62,7 @@ namespace DeadLineService.Controllers
 
 
         [HttpPost("refresh-token")]
+        [HasPermission("Registration")]
         //[Authorize]
         public async Task<ActionResult<string>> RefreshToken(UserAuth user)
         {

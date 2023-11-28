@@ -22,6 +22,9 @@ using Infrastructure.Handlers.ForTaskStatuses;
 using Infrastructure.Handlers.ForTask;
 using Infrastructure.Handlers.ForPermission;
 using Infrastructure.Handlers.ForRoles;
+using Application.CustomeAuth;
+using Microsoft.TeamFoundation.TestManagement.WebApi;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DeadLineSevice
 {
@@ -48,8 +51,11 @@ namespace DeadLineSevice
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
-
             builder.Services.AddApplicationService(builder.Configuration);
+
+            builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+
 
             var secretKey = builder.Configuration.GetSection("JWTSettings")["SecretKey"];
             var issuer = builder.Configuration.GetSection("JWTSettings")["Issuer"];
@@ -63,6 +69,7 @@ namespace DeadLineSevice
             builder.Services.AddScoped<IUserAuthService, Infrastructure.Services.AuthenticationService>();
             builder.Services.AddScoped<ITaskStatusService, TaskStatusService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddSingleton<IPermissionForRoleService, PermissionForRoleService>();
             builder.Services.AddScoped<IPermissionService, PermissionService>();
 
 
