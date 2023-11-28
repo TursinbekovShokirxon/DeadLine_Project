@@ -33,7 +33,6 @@ namespace Application.Clases
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var expiryInMinutes = Convert.ToDouble(10);
 
-
             foreach (var role in user.Roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role.Name));

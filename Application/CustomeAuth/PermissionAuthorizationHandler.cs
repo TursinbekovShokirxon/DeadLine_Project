@@ -26,6 +26,7 @@ namespace Application.CustomeAuth
             string? memberId = context.User.Claims.FirstOrDefault(
                 x => x.Type == JwtRegisteredClaimNames.Sub
                 )?.Value;
+            await Console.Out.WriteLineAsync(context.User.Identity.Name);
             if (!Guid.TryParse(memberId, out Guid parsememberId) )
             {
                 return;
