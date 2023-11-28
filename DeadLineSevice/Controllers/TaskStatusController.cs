@@ -36,8 +36,9 @@ namespace DeadLineService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<TaskStatus>> TaskStatusGetAll(TaskStatusGetAllModel request)
+        public async Task<ActionResult<TaskStatus>> TaskStatusGetAll()
         {
+            TaskStatusGetAllModel request = new();
             var taskStatusList = await _mediator.Send(request);
 
             if (taskStatusList.Count()==0)

@@ -31,19 +31,21 @@ namespace DeadLineService.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Role>> GetAllRole(GetAllRoleModel obj)
+        public async Task<IEnumerable<Role>> GetAllRole()
         {
+            GetAllRoleModel obj = new();
             var result = await _mediator.Send(obj);
             return result;
         }
         [HttpPost]
-        public async Task<ActionResult<string>> AddPermissionInRoleHandler([FromBody] AddPermissionInRoleModel obj)
+        public async Task<ActionResult<string>> AddPermissionInRole([FromBody] AddPermissionInRoleModel obj)
         {
             var result = await _mediator.Send(obj);
             return Ok(result);
         }
         [HttpPost]
-        public async Task<ActionResult<string>> AddUserInRoleHandler([FromBody] AddUserInRoleModel obj)
+        public async Task<ActionResult<string>> AddUserInRole([FromBody] AddUserInRoleModel obj)
+
         {
             var result = await _mediator.Send(obj);
             return Ok(result);
