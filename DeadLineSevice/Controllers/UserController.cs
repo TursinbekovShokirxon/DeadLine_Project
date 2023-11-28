@@ -10,7 +10,7 @@ namespace DeadLineSevice.Controllers
 {
     [ApiController, Route("api/[controller]/[action]")]
     [EnableRateLimiting("FixedWindowPolicy")]
-    [Authorize]
+    //[Authorize]
     public class UserController:ControllerBase
     {
         private readonly IMediator _mediator;

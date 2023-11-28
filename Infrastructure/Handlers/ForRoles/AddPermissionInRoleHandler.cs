@@ -36,6 +36,7 @@ namespace Infrastructure.Handlers.ForRoles
             if (Role == null) return "Такого роля нету";
             
              Role?.Permissions?.Add(Permission);
+            _db.SaveChanges();
             
             return $"{Permission} Разрешение добавлен в {Role} роль";
         }

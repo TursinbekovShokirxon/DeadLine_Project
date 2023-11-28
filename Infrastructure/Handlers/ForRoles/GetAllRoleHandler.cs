@@ -4,7 +4,9 @@ using MediatR;
 
 namespace Infrastructure.Handlers.ForRoles
 {
-    public class GetAllRoleModel : IRequest<IEnumerable<Role>> { }
+    public class GetAllRoleModel : IRequest<IEnumerable<Role>> { 
+        
+    }
     public class GetAllHandler : IRequestHandler<GetAllRoleModel, IEnumerable<Role>>
     {
         private readonly IRoleService _roleService;
