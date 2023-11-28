@@ -77,6 +77,12 @@ namespace DeadLineSevice
             builder.Services.AddTransient<IRequestHandler<UserDeleteModel, string>, UserDeleteHandler>();
             builder.Services.AddTransient<IRequestHandler<PerMissionGetAllModel, IEnumerable<Permission>>, PermissionGetAllHandler>();
 
+
+            builder.Services.AddTransient<IRequestHandler<CreateRoleModel, Role>, CreateRoleHandler>();
+            builder.Services.AddTransient<IRequestHandler<AddPermissionInRoleModel, string>, AddPermissionInRoleHandler>();
+            builder.Services.AddTransient<IRequestHandler<AddUserInRoleModel, string>, AddUserInRoleHandler>();
+            builder.Services.AddTransient<IRequestHandler<GetByIdRoleModel, Role>, GetByIdRoleHandler>();
+
             builder.Services.AddTransient<IRequestHandler<TaskStatusCreateModel, bool>, TaskStatusCreateHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusDeleteModel, bool>, TaskStatusDeleteHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusGetAllModel, IEnumerable<Domain.Models.TaskStatus>>, TaskStatusGetAllHandler>();

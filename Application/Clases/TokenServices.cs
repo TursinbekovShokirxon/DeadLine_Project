@@ -29,10 +29,10 @@ namespace Application.Clases
             {
                 new Claim(ClaimTypes.Name, user.Username),
             };
-          
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTSettings:SecretKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var expiryInMinutes = Convert.ToDouble(10);
+
             foreach (var role in user.Roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role.Name));

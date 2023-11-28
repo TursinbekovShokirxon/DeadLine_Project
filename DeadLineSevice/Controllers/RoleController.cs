@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace DeadLineService.Controllers
 {
-    [ApiController, Route("api/[controller]/[action]")]
+    [ApiController, Route("api/[controller]")]
     [EnableRateLimiting("FixedWindowPolicy")]
     public class RoleController : ControllerBase
     {
@@ -16,26 +16,43 @@ namespace DeadLineService.Controllers
             this._mediator = _mediator;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<string>> CreateRole(CreateRoleModel role)
+        [HttpPost("api/Role/CreateRole")]
+        public async Task<ActionResult<string>> CreateRole([FromBody] CreateRoleModel role)
         {
-            var result = _mediator.Send(role);
+            var result = await _mediator.Send(role);
             return result != null ? Ok("Роль создана") : BadRequest("Ошибка создания роли");
         }
 
-        [HttpPut]
-        public async Task<ActionResult<string>> UpdateRole(UpdateRoleHandler obj)
+        [HttpPut("api/Role/UpdateRole")]
+        public async Task<ActionResult<string>> UpdateRole([FromBody] UpdateRoleHandler obj)
         {
-            var result = _mediator.Send(obj);
+            var result = await _mediator.Send(obj);
             return result != null ? Ok("Роль обновлена") : BadRequest("Ошибка обновления роли");
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Role>>> GetAllRole(GetAllRoleModel obj)
+        [HttpGet("api/Role/GetAllRole")]
+        public async Task<IEnumerable<Role>> GetAllRole(GetAllRoleModel obj)
         {
-            var result = _mediator.Send(obj);
+            var result = await _mediator.Send(obj);
+            return result;
+        }
+        [HttpPost("api/Role/AddPermissionInRole")]
+        public async Task<ActionResult<string>> AddPermissionInRoleHandler([FromBody] AddPermissionInRoleHandler obj)
+        {
+            var result = await _mediator.Send(obj);
             return Ok(result);
         }
-
+        [HttpPost("api/Role/AddUserInRole")]
+        public async Task<ActionResult<string>> AddUserInRoleHandler([FromBody] AddUserInRoleHandler obj)
+        {
+            var result = await _mediator.Send(obj);
+            return Ok(result);
+        }
+        [HttpDelete("api/Role/DeleteRole")]
+        public async Task<ActionResult<string>> DeleteRole(DeleteRoleHandler obj)
+        {
+            var result = await _mediator.Send(obj);
+            return Ok(result);
+        }
     }
 }

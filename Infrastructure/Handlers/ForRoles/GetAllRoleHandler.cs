@@ -14,7 +14,7 @@ namespace Infrastructure.Handlers.ForRoles
         }
         public async Task<IEnumerable<Role>> Handle(GetAllRoleModel request, CancellationToken cancellationToken)
         {
-            var res=_roleService.GetAll();
+            var res = _roleService.GetAll().ToList();
             return res;
         }
     }

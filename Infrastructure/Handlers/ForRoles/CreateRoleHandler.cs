@@ -13,7 +13,6 @@ namespace Infrastructure.Handlers.ForRoles
     public class CreateRoleModel:IRequest<Role>
     {
         public string Name { get; set; } = string.Empty;
-        public ICollection<Permission>? Permissions { get; set; }
     }
     public class CreateRoleHandler : IRequestHandler<CreateRoleModel, Role>
     {
@@ -25,7 +24,8 @@ namespace Infrastructure.Handlers.ForRoles
         public async Task<Role> Handle(CreateRoleModel request, CancellationToken cancellationToken)
         {
             var role = new Role() { 
-                Name = request.Name
+                Name = request.Name,
+                Permissions=new List<Permission>()
             };
             Role roleServ = await _roleService.Create(role);
             return roleServ;
