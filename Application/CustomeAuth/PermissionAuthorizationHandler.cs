@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.ModelServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,19 +14,21 @@ namespace Application.CustomeAuth
         : AuthorizationHandler<PermissionRequirement>
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        //private readonly IUserAuthService _userAuthService;
 
-        public PermissionAuthorizationHandler(IServiceScopeFactory serviceScopeFactory)
+        public PermissionAuthorizationHandler(IServiceScopeFactory serviceScopeFactory/*, IUserAuthService userAuthService*/)
         {
             _serviceScopeFactory = serviceScopeFactory;
+            //_userAuthService = userAuthService;
         }
 
         protected override async Task HandleRequirementAsync(
             AuthorizationHandlerContext context, 
             PermissionRequirement requirement)
         {
-            string? memberId = context.User.Claims.FirstOrDefault(
-                x => x.Type == JwtRegisteredClaimNames.Sub
-                )?.Value;
+            //string? memberId = context.User.Claims.FirstOrDefault(
+            //    x => x.Type == JwtRegisteredClaimNames.Sub
+            //    )?.Value;
             await Console.Out.WriteLineAsync(context.User.Identity.Name);
             //if (!Guid.TryParse(memberId, out Guid parsememberId) )
             //{
@@ -36,8 +39,11 @@ namespace Application.CustomeAuth
 
             IPermissionForRoleService permissionService = scope.ServiceProvider
                 .GetRequiredService<IPermissionForRoleService>();
-
-            var permission = await permissionService.GetPermissionAsync(2);
+            //if(context.User.Identity.Name == "J")
+            //var userAuth = _userAuthService.GetByUsername(context.User.Identity.Name);
+            
+            var permission = await permissionService.GetPermissionAsync(2/*userAuth.UserId*/);
+            
 
             if (permission.Contains(requirement.Permission)) {
                 context.Succeed(requirement);

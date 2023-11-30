@@ -89,6 +89,8 @@ namespace DeadLineSevice
             builder.Services.AddTransient<IRequestHandler<AddPermissionInRoleModel, string>, AddPermissionInRoleHandler>();
             builder.Services.AddTransient<IRequestHandler<AddUserInRoleModel, string>, AddUserInRoleHandler>();
             builder.Services.AddTransient<IRequestHandler<GetByIdRoleModel, Role>, GetByIdRoleHandler>();
+            builder.Services.AddScoped<Application.ModelServices.IUserAuthService, Infrastructure.Services.AuthenticationService>();
+
 
             builder.Services.AddTransient<IRequestHandler<TaskStatusCreateModel, bool>, TaskStatusCreateHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusDeleteModel, bool>, TaskStatusDeleteHandler>();
