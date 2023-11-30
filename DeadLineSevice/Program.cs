@@ -36,6 +36,15 @@ namespace DeadLineSevice
 
             // Add services to the container.
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyCorsPolicy", builder =>
+                {
+                    builder.WithOrigins("http://pdp.com")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -143,14 +152,31 @@ namespace DeadLineSevice
             var app = builder.Build();
 
 
+            //app.UseCors(builder =>
+            //    builder
+            //    .WithOrigins("https://pdp.uz")
+            //    .WithMethods("GET")
+            //    .AllowAnyHeader()
+            //    .AllowCredentials()
+            //);
+
+            //app.Use((ctx, next) =>
+            //{
+            //    ctx.Response.Headers["Access-Control-Allow-Origin"] = "https://pdp.uz";
+            //    return next();
+            //});
+
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseRateLimiter();
 
             app.UseHttpsRedirection();
+            app.UseCors("MyCorsPolicy");
 
             app.UseAuthentication();
 
