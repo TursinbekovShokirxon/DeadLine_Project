@@ -40,7 +40,7 @@ namespace DeadLineSevice
             {
                 options.AddPolicy("MyCorsPolicy", builder =>
                 {
-                    builder.WithOrigins("http://pdp.com")
+                    builder.WithOrigins("https://jwt.io")
                            .AllowAnyHeader()
                            .AllowAnyMethod();
                 });
