@@ -1,5 +1,4 @@
-﻿using Application.CustomeAuth;
-using Domain.Models.Authtification;
+﻿using Domain.Models.Authtification;
 using Infrastructure.Handlers.ForRoles;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -31,23 +30,21 @@ namespace DeadLineService.Controllers
             return result != null ? Ok("Роль обновлена") : BadRequest("Ошибка обновления роли");
         }
 
-        [HttpGet]
-        [HasPermission("Registration")]
+        [HttpGet("api/Role/GetAllRole")]
         public async Task<IEnumerable<Role>> GetAllRole()
         {
             GetAllRoleModel obj = new();
             var result = await _mediator.Send(obj);
             return result;
         }
-        [HttpPost]
-        public async Task<ActionResult<string>> AddPermissionInRole([FromBody] AddPermissionInRoleModel obj)
+        [HttpPost("api/Role/AddPermissionInRole")]
+        public async Task<ActionResult<string>> AddPermissionInRoleHandler([FromBody] AddPermissionInRoleHandler obj)
         {
             var result = await _mediator.Send(obj);
             return Ok(result);
         }
-        [HttpPost]
-        public async Task<ActionResult<string>> AddUserInRole([FromBody] AddUserInRoleModel obj)
-
+        [HttpPost("api/Role/AddUserInRole")]
+        public async Task<ActionResult<string>> AddUserInRoleHandler([FromBody] AddUserInRoleHandler obj)
         {
             var result = await _mediator.Send(obj);
             return Ok(result);
