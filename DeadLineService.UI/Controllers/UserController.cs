@@ -10,7 +10,7 @@ namespace DeadLineService.UI.Controllers
         public IActionResult GetUsers()
         {
             var result = HttRequestForGetUsers("User/GetAll");
-            return View(result);
+            return View("~/Views/User/UserIndex.cshtml", result);
         }
         private async Task<bool> HttpRequetForPost(object obj, string controllerAndMethodName)
         {
