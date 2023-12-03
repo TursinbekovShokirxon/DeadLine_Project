@@ -17,7 +17,7 @@ namespace DeadLineService.UI.Controllers
             return View("~/Views/Home/Privacy.cshtml");
         }
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
