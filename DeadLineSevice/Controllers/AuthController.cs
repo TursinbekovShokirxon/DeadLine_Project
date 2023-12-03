@@ -63,8 +63,8 @@ namespace DeadLineService.Controllers
 
 
         [HttpPost("refresh-token")]
-        //[Authorize]
-        
+        [Authorize]
+
         public async Task<ActionResult<string>> RefreshToken(UserAuth user)
         {
             var refreshToken = Request.Cookies["refreshToken"];
