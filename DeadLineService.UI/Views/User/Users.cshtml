@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Domain.Models.User>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>User Data Grid</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>User Data Grid</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NickName</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>item.Id</td>
+                    <td>item.NickName</td>
+                    <td>john@example.com</td>
+                </tr>
+
+            }
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+
+</body>
+</html>
