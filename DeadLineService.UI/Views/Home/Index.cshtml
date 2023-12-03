@@ -5,16 +5,17 @@
     <div class="row">
         <div class="colm-form">
             <!-- Ваша форма остается здесь -->
-            <form>
+            <form asp-action="Login" asp-controller="Login" method="post">
                 <div class="form-container">
                     <input type="text" placeholder="Username" name="Username">
                     <input type="password" placeholder="Password" name="Password">
-                    <button class="btn-login" asp-action="Login" asp-controller="Login" method="post">Login</button>
-                    <a href="#">Forgotten password?</a>
-                    <button class="btn-new" asp-action="Index" asp-controller="Login" method="get">Create new Account </button>
+                    <button class="btn-login">Login</button>
+                    <a href="#!">Forgotten password?</a>
+                    <button class="btn-new" asp-action="Index" asp-controller="Login" formmethod="get">Create new Account </button>
                 </div>
                 <p><a href="#"><b>Create a Page</b></a> for a celebrity, brand, or business.</p>
             </form>
+           
         </div>
     </div>
 </div>
@@ -35,14 +36,13 @@
         background-color: #ffffff;
         padding: 20px;
         border-radius: 10px;
-        box-shadow: 0 0 10px #000000; 
+        box-shadow: 0 0 10px #000000;
     }
-
 
     .colm-form {
         width: 100%;
         max-width: 400px;
-        margin: 0 auto; 
+        margin: 0 auto;
     }
 
     .form-container {
@@ -52,5 +52,5 @@
     .btn-login,
     .btn-new {
         margin-top: 10px;
-    }
+
 </style>
