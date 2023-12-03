@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.TeamFoundation.TestManagement.WebApi;
 using Microsoft.VisualStudio.Services.Users;
 using Newtonsoft.Json;
 using System.Text;
@@ -7,9 +8,9 @@ namespace DeadLineService.UI.Controllers
 {
     public class UserController : Controller
     {
-        public IActionResult GetUsers()
+        public async  Task<IActionResult> GetUsers()
         {
-            var result = HttRequestForGetUsers("User/GetAll");
+            IEnumerable<User> result =await HttpRequestForGetUsers("User/GetAllUser");
             return View("~/Views/User/UserIndex.cshtml", result);
         }
         private async Task<bool> HttpRequetForPost(object obj, string controllerAndMethodName)
@@ -30,7 +31,7 @@ namespace DeadLineService.UI.Controllers
                 }
             }
         }
-        private async Task<IEnumerable<User>> HttRequestForGetUsers(string controllerAndMethodName)
+        private async Task<IEnumerable<User>> HttpRequestForGetUsers(string controllerAndMethodName)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -39,14 +40,11 @@ namespace DeadLineService.UI.Controllers
                 {
                     // Успешно принято
                     string responseData = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<IEnumerable<User>>(responseData);
+                    IEnumerable<User>? result = JsonConvert.DeserializeObject<IEnumerable<User>>(responseData);
+                    return result;
                 }
                 else return Enumerable.Empty<User>();
             }
         }
-
-
-
-
     }
 }
