@@ -26,7 +26,7 @@ namespace DeadLineService.UI.Controllers
                 {
                     // 5. Выполните POST-запрос
                     HttpResponseMessage response = await client.PostAsync("https://localhost/api/Auth/Login", content);
-                    // 6. Обработайте ответ, если необходимо
+                    // 6. Обработайте ответ, если необходимоs
                     if (response.IsSuccessStatusCode)
                     {
                         // Успешно отправлено
