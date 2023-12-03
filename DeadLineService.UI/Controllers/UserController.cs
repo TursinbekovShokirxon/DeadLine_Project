@@ -11,7 +11,7 @@ namespace DeadLineService.UI.Controllers
 
         public async Task<IActionResult> GetUsers()
         {
-			IEnumerable<User> result =await HttpRequestForGetUsers("User/GetAllUser");
+			IEnumerable<Domain.Models.User> result =await HttpRequestForGetUsers("User/GetAllUser");
             return View("~/Views/User/UserIndex.cshtml", result);
         }
         private async Task<bool> HttpRequetForPost(object obj, string controllerAndMethodName)
@@ -32,7 +32,7 @@ namespace DeadLineService.UI.Controllers
                 }
             }
         }
-        private async Task<IEnumerable<User>> HttpRequestForGetUsers(string controllerAndMethodName)
+        private async Task<IEnumerable<Domain.Models.User>> HttpRequestForGetUsers(string controllerAndMethodName)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -41,10 +41,10 @@ namespace DeadLineService.UI.Controllers
                 {
                     // Успешно принято
                     string responseData = await response.Content.ReadAsStringAsync();
-                    List<User>? result = JsonConvert.DeserializeObject<List<User>>(responseData);
+                    List<Domain.Models.User>? result = JsonConvert.DeserializeObject<List<Domain.Models.User>>(responseData);
                     return result;
                 }
-                else return Enumerable.Empty<User>();
+                else return Enumerable.Empty<Domain.Models.User>();
             }
         }
     }
