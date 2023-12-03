@@ -31,7 +31,7 @@ namespace DeadLineService.UI.Controllers
                 }
             }
         }
-        private async Task<IEnumerable<User>> HttRequestForGetUsers(string controllerAndMethodName)
+        private async Task<IEnumerable<Domain.Models.User>> HttRequestForGetUsers(string controllerAndMethodName)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -40,13 +40,10 @@ namespace DeadLineService.UI.Controllers
                 {
                     // Успешно принято
                     string responseData = await response.Content.ReadAsStringAsync();
-					IEnumerable<User>? userList = JsonConvert.DeserializeObject<IEnumerable<User>>(responseData, new JsonSerializerSettings
-					{
-						MissingMemberHandling = MissingMemberHandling.Ignore
-					});
+					IEnumerable<Domain.Models.User> userList = JsonConvert.DeserializeObject<IEnumerable<Domain.Models.User>>(responseData);
 					return userList;
                 }
-                else return Enumerable.Empty<User>();
+                else return Enumerable.Empty<Domain.Models.User>();
             }
         }
 
