@@ -41,7 +41,7 @@ namespace DeadLineService.UI.Controllers
                 {
                     // Успешно принято
                     string responseData = await response.Content.ReadAsStringAsync();
-                    IEnumerable<User>? result = JsonConvert.DeserializeObject<IEnumerable<User>>(responseData);
+                    List<User>? result = JsonConvert.DeserializeObject<List<User>>(responseData);
                     return result;
                 }
                 else return Enumerable.Empty<User>();

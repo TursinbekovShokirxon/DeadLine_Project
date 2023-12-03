@@ -1,32 +1,49 @@
 ﻿@using Domain.Models;
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+
 @{
-	Layout = "~/Views/Shared/_LayoutMainPage.cshtml";
+    Layout = "~/Views/Shared/_LayoutMainPage.cshtml";
 }
-@model IEnumerable<User>;
+
+@model List<User>;
+
 <div class="container" id="listing">
-	<h3>Listing</h3>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Code</th>
-				<th>Description</th>
-				<th>UOM</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>NU-CH-000001</td>
-				<td>Chocolate chip cookies</td>
-				<td>Pack</td>
-				<td>
-					<a href="#" class="btn btn-default">Edit</a> &nbsp;
-					<a href="#" class="btn btn-default">Default</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+    <h3>Listing</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NickName</th>
+                <th>Faculty</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.NickName</td>
+                    <td>@item.Faculty</td>
+                    <td>
+                        <!-- Форма для обновления элемента -->
+                        <form asp-action="UpdateItem" asp-controller="YourController" method="post">
+                            <input type="hidden" name="itemId" value="@item.Id" />
+                            <button type="submit">Update</button>
+                        </form>
+
+                        <!-- Форма для удаления элемента -->
+                        <form asp-action="DeleteItem" asp-controller="YourController" method="post">
+                            <input type="hidden" name="itemId" value="@item.Id" />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Форма для добавления нового элемента -->
+    <form asp-action="AddItem" asp-controller="YourController" method="post">
+        <button type="submit">Добавить</button>
+    </form>
 </div>
