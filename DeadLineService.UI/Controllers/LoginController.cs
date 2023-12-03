@@ -32,18 +32,20 @@ namespace DeadLineService.UI.Controllers
                         // Успешно отправлено
                         string responseData = await response.Content.ReadAsStringAsync();
                         await Console.Out.WriteLineAsync(responseData);
+                        return View("~/Views/MainPage/MainPageIndex.cshtml");
 
                         // Ваш код обработки ответа
                     }
                     else
                     {
+                        return View("~/Views/Home/Privacy.cshtml");
                         // Ошибка отправки
                         // Обработка ошибки, если необходимо
                     }
                 }
             }
 
-            return View("~/Views/Home/Privacy.cshtml");
+            
         }
     }
 }
