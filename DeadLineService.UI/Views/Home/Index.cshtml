@@ -14,10 +14,12 @@
                     <input type="password" placeholder="Password" name="Password">
                     <button class="btn-login">Login</button>
                     <a href="#!">Forgotten password?</a>
-                    <button class="btn-new" asp-action="Index" asp-controller="Login" method="get">Create new Account </button>
                 </div>
                 <p><a href="#"><b>Create a Page</b></a> for a celebrity, brand, or business.</p>
             </form>
+            
+            <button class="btn-new" asp-action="Index" asp-controller="Login" method="get">Create new Account </button>
+            
         </div>
     </div>
 </div>
@@ -58,24 +60,24 @@
     }
 </style>
 <script>
-    //// Получаем элементы кнопок
-    //var btnLogin = document.getElementById('btnLogin');
-    //var forgottenPasswordLink = document.getElementById('forgottenPasswordLink');
-    //var btnCreateAccount = document.getElementById('btnCreateAccount');
+    // Получаем элементы кнопок
+    var btnLogin = document.getElementById('btnLogin');
+    var forgottenPasswordLink = document.getElementById('forgottenPasswordLink');
+    var btnCreateAccount = document.getElementById('btnCreateAccount');
 
-    //// Добавляем обработчик событий для каждой кнопки
-    //btnLogin.addEventListener('click', function() {
-    //    // Перенаправляем пользователя на другое представление (здесь "Login" - ваш контроллер, "Index" - ваше представление)
-    //    window.location.href = '/Login/Index';
-    //});
+    // Добавляем обработчик событий для каждой кнопки
+    btnLogin.addEventListener('click', function() {
+        // Перенаправляем пользователя на другое представление (здесь "Login" - ваш контроллер, "Index" - ваше представление)
+        window.location.href = '/Login/Index';
+    });
 
-    //forgottenPasswordLink.addEventListener('click', function() {
-    //    // Перенаправляем пользователя на другое представление для восстановления пароля
-    //    window.location.href = '/Login/ForgottenPassword';
-    //});
+    forgottenPasswordLink.addEventListener('click', function() {
+        // Перенаправляем пользователя на другое представление для восстановления пароля
+        window.location.href = '/Login/ForgottenPassword';
+    });
 
-    //btnCreateAccount.addEventListener('click', function() {
-    //    // Перенаправляем пользователя на другое представление для создания нового аккаунта
-    //    window.location.href = '/Login/CreateAccount';
-    //});
+    btnCreateAccount.addEventListener('click', function() {
+        // Перенаправляем пользователя на другое представление для создания нового аккаунта
+        window.location.href = '/Login/CreateAccount';
+    });
 </script>
