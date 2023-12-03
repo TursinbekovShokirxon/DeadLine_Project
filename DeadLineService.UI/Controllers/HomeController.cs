@@ -15,6 +15,7 @@ namespace DeadLineService.UI.Controllers
 
         public IActionResult Index()
         {
+            _logger.Log(LogLevel.Information,"Index started");
             return View();
         }
 
