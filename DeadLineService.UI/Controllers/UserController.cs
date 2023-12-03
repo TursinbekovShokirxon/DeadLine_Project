@@ -22,7 +22,6 @@ namespace DeadLineService.UI.Controllers
                     HttpResponseMessage response = await client.PostAsync("https://localhost/api/" + controllerAndMethodName, content);
                     if (response.IsSuccessStatusCode)
                     {
-                        // Успешно отправлено
                         string responseData = await response.Content.ReadAsStringAsync();
                         await Console.Out.WriteLineAsync(responseData);
                         return true;
