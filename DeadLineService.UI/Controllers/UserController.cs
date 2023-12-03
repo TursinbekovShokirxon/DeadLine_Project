@@ -8,9 +8,10 @@ namespace DeadLineService.UI.Controllers
 {
     public class UserController : Controller
     {
-        public async  Task<IActionResult> GetUsers()
+
+        public async Task<IActionResult> GetUsers()
         {
-            IEnumerable<User> result =await HttpRequestForGetUsers("User/GetAllUser");
+			IEnumerable<User> result =await HttpRequestForGetUsers("User/GetAllUser");
             return View("~/Views/User/UserIndex.cshtml", result);
         }
         private async Task<bool> HttpRequetForPost(object obj, string controllerAndMethodName)
