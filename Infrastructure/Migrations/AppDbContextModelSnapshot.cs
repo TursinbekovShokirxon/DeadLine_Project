@@ -22,6 +22,23 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Models.Authtification.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions");
+                });
+
             modelBuilder.Entity("Domain.Models.Authtification.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -34,12 +51,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserAuthUserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserAuthUserId");
 
                     b.ToTable("Roles");
                 });
@@ -179,25 +191,43 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Universty")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
-
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Domain.Models.Authtification.Role", b =>
+            modelBuilder.Entity("PermissionRole", b =>
                 {
-                    b.HasOne("Domain.Models.Authtification.UserAuth", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserAuthUserId");
+                    b.Property<int>("PermissionsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RolesId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PermissionsId", "RolesId");
+
+                    b.HasIndex("RolesId");
+
+                    b.ToTable("PermissionRole");
+                });
+
+            modelBuilder.Entity("RoleUserAuth", b =>
+                {
+                    b.Property<int>("RolesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserAuthesUserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("RolesId", "UserAuthesUserId");
+
+                    b.HasIndex("UserAuthesUserId");
+
+                    b.ToTable("RoleUserAuth");
                 });
 
             modelBuilder.Entity("Domain.Models.Order", b =>
@@ -238,21 +268,34 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Models.User", b =>
+            modelBuilder.Entity("PermissionRole", b =>
+                {
+                    b.HasOne("Domain.Models.Authtification.Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.Authtification.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RoleUserAuth", b =>
                 {
                     b.HasOne("Domain.Models.Authtification.Role", null)
-                        .WithMany("UserAuthes")
-                        .HasForeignKey("RoleId");
-                });
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("Domain.Models.Authtification.Role", b =>
-                {
-                    b.Navigation("UserAuthes");
-                });
-
-            modelBuilder.Entity("Domain.Models.Authtification.UserAuth", b =>
-                {
-                    b.Navigation("Roles");
+                    b.HasOne("Domain.Models.Authtification.UserAuth", null)
+                        .WithMany()
+                        .HasForeignKey("UserAuthesUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Models.User", b =>

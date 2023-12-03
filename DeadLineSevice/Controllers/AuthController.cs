@@ -1,4 +1,5 @@
-﻿using Application.InterfacesModelServices;
+﻿using Application.CustomeAuth;
+using Application.InterfacesModelServices;
 using Domain.Models.Authtification;
 using Infrastructure.Handlers.ForAuthentication;
 using MediatR;
@@ -22,6 +23,8 @@ namespace DeadLineService.Controllers
             _tokenServices = tokenServices;
         }
         [HttpPost]
+        //[Authorize]
+        //[HasPermission("Registration")]
         public async Task<ActionResult<UserAuth>> Registration(UserRegirstrationModel request)
         {
             var user = await _mediator.Send(request);
@@ -29,10 +32,12 @@ namespace DeadLineService.Controllers
         }
 
         [HttpPost]
+        //[Authorize(Roles = "Login")]
         public async Task<ActionResult<string>> Login(UserLoginModel request)
         {
             string token;
-            UserAuth res = await _mediator.Send(request);
+            UserAuth res= new();
+            res = await _mediator.Send(request);
 
             if (res != null)
             {
@@ -56,7 +61,10 @@ namespace DeadLineService.Controllers
                 return BadRequest($"Пользователь под именем {request.Username} не найден");
         }
 
+
         [HttpPost("refresh-token")]
+        //[Authorize]
+        
         public async Task<ActionResult<string>> RefreshToken(UserAuth user)
         {
             var refreshToken = Request.Cookies["refreshToken"];

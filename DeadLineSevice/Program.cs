@@ -20,6 +20,12 @@ using Application.InterfacesModelServices;
 using Application.Clases;
 using Infrastructure.Handlers.ForTaskStatuses;
 using Infrastructure.Handlers.ForTask;
+using Infrastructure.Handlers.ForPermission;
+using Infrastructure.Handlers.ForRoles;
+using Application.CustomeAuth;
+using Microsoft.TeamFoundation.TestManagement.WebApi;
+using Microsoft.AspNetCore.Authorization;
+
 namespace DeadLineSevice
 {
     public class Program
@@ -30,6 +36,15 @@ namespace DeadLineSevice
 
             // Add services to the container.
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyCorsPolicy", builder =>
+                {
+                    builder.WithOrigins("https://jwt.io")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -45,8 +60,11 @@ namespace DeadLineSevice
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
-
             builder.Services.AddApplicationService(builder.Configuration);
+
+            builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+
 
             var secretKey = builder.Configuration.GetSection("JWTSettings")["SecretKey"];
             var issuer = builder.Configuration.GetSection("JWTSettings")["Issuer"];
@@ -59,6 +77,10 @@ namespace DeadLineSevice
             builder.Services.AddScoped<ITokenServices, TokenServices>();
             builder.Services.AddScoped<IUserAuthService, Infrastructure.Services.AuthenticationService>();
             builder.Services.AddScoped<ITaskStatusService, TaskStatusService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IPermissionForRoleService, PermissionForRoleService>();
+            builder.Services.AddScoped<IPermissionService, PermissionService>();
+
 
             builder.Services.AddTransient<IRequestHandler<UserRegirstrationModel, string>, UserRegirstrationHandler>();
             builder.Services.AddTransient<IRequestHandler<UserLoginModel, UserAuth>, UserLoginHandler>();
@@ -69,12 +91,23 @@ namespace DeadLineSevice
             builder.Services.AddTransient<IRequestHandler<UserUpdateModel, string>, UserUpdateHandler>();
             builder.Services.AddTransient<IRequestHandler<UserDeleteModel, string>, UserDeleteHandler>();
             builder.Services.AddTransient<IRequestHandler<UserDeleteModel, string>, UserDeleteHandler>();
+            builder.Services.AddTransient<IRequestHandler<PerMissionGetAllModel, IEnumerable<Permission>>, PermissionGetAllHandler>();
+
+
+            builder.Services.AddTransient<IRequestHandler<CreateRoleModel, Role>, CreateRoleHandler>();
+            builder.Services.AddTransient<IRequestHandler<AddPermissionInRoleModel, string>, AddPermissionInRoleHandler>();
+            builder.Services.AddTransient<IRequestHandler<AddUserInRoleModel, string>, AddUserInRoleHandler>();
+            builder.Services.AddTransient<IRequestHandler<GetByIdRoleModel, Role>, GetByIdRoleHandler>();
+            builder.Services.AddScoped<Application.ModelServices.IUserAuthService, Infrastructure.Services.AuthenticationService>();
+
 
             builder.Services.AddTransient<IRequestHandler<TaskStatusCreateModel, bool>, TaskStatusCreateHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusDeleteModel, bool>, TaskStatusDeleteHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusGetAllModel, IEnumerable<Domain.Models.TaskStatus>>, TaskStatusGetAllHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusGetByIdModel, Domain.Models.TaskStatus>, TaskStatusGetByIdHandler>();
             builder.Services.AddTransient<IRequestHandler<TaskStatusUpdateModel, bool>, TaskStatusUpdateHandler>();
+            builder.Services.AddTransient<IRequestHandler<GetAllRoleModel, IEnumerable<Role>>,GetAllHandler>();
+
 
             builder.Services.AddTransient<IRequestHandler<TaskCreateModel, Domain.Models.Task>, TaskCreateHandler>();
 
@@ -119,14 +152,31 @@ namespace DeadLineSevice
             var app = builder.Build();
 
 
+            //app.UseCors(builder =>
+            //    builder
+            //    .WithOrigins("https://pdp.uz")
+            //    .WithMethods("GET")
+            //    .AllowAnyHeader()
+            //    .AllowCredentials()
+            //);
+
+            //app.Use((ctx, next) =>
+            //{
+            //    ctx.Response.Headers["Access-Control-Allow-Origin"] = "https://pdp.uz";
+            //    return next();
+            //});
+
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseRateLimiter();
 
             app.UseHttpsRedirection();
+            app.UseCors("MyCorsPolicy");
 
             app.UseAuthentication();
 

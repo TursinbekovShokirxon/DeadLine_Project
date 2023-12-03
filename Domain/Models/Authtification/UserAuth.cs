@@ -9,8 +9,8 @@ namespace Domain.Models.Authtification
         public string Username { get; set; } = string.Empty;
         public string PasswordHash { get; set; }= string.Empty;
         public string RefreshToken { get; set; } = string.Empty;
-        public DateTime TokenCreated { get; set; }= DateTime.Now.ToUniversalTime();
+        public DateTime TokenCreated { get; set; } = DateTime.Now.ToUniversalTime();
         public DateTime TokenExpires { get; set; }
-        public ICollection<Role> Roles { get; set; }
+        public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
     }
 }

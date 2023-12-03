@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Application.CustomeAuth;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.TeamFoundation.Core.WebApi;
+using Microsoft.TeamFoundation.TestManagement.WebApi;
 using Microsoft.VisualStudio.Services.Identity;
 using System;
 using System.Collections.Generic;
@@ -27,6 +30,7 @@ namespace Application.StaticMethods
             {
                 options.DefaultAuthenticateScheme = "JwtBearer";
                 options.DefaultChallengeScheme = "JwtBearer";
+
 
             })
             .AddJwtBearer("JwtBearer", jwtBearerOptions =>
@@ -58,8 +62,13 @@ namespace Application.StaticMethods
                 //};
                 #endregion
             });
+            service.AddAuthorization(options =>
+            {
+                options.AddPolicy("HasPermissionPolicy", policy =>
+                    policy.Requirements.Add(new PermissionRequirement("Registration")));
+            });
 
-            service.AddAuthorization();
+            //service.AddAuthorization();
 
             #region
             //service.AddAuthorization(option =>

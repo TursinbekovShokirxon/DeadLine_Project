@@ -1,0 +1,49 @@
+﻿@using Domain.Models;
+
+@{
+    Layout = "~/Views/Shared/_LayoutMainPage.cshtml";
+}
+
+@model List<User>;
+
+<div class="container" id="listing">
+    <h3>Listing</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NickName</th>
+                <th>Faculty</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.NickName</td>
+                    <td>@item.Faculty</td>
+                    <td>
+                        <!-- Форма для обновления элемента -->
+                        <form asp-action="UpdateItem" asp-controller="YourController" method="post">
+                            <input type="hidden" name="itemId" value="@item.Id" />
+                            <button type="submit">Update</button>
+                        </form>
+
+                        <!-- Форма для удаления элемента -->
+                        <form asp-action="DeleteItem" asp-controller="YourController" method="post">
+                            <input type="hidden" name="itemId" value="@item.Id" />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Форма для добавления нового элемента -->
+    <form asp-action="AddItem" asp-controller="YourController" method="post">
+        <button type="submit">Добавить</button>
+    </form>
+</div>

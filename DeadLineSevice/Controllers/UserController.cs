@@ -10,7 +10,7 @@ namespace DeadLineSevice.Controllers
 {
     [ApiController, Route("api/[controller]/[action]")]
     [EnableRateLimiting("FixedWindowPolicy")]
-    [Authorize]
+    //[Authorize]
     public class UserController:ControllerBase
     {
         private readonly IMediator _mediator;
@@ -42,8 +42,9 @@ namespace DeadLineSevice.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<User>> GetAllUser(UserGetAllModel user)
+        public async Task<ActionResult<User>> GetAllUser()
         {
+            UserGetAllModel user = new();
             var res = await _mediator.Send(user);
             return Ok(res);
         }

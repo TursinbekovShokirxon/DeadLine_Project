@@ -27,6 +27,7 @@ namespace Infrastructure.Contexts
         public DbSet<UserAuth> UserAuthifications  { get; set; }
         public DbSet<Domain.Models.TaskStatus> TaskStatuses  { get; set; }
         public DbSet<Role> Roles  { get; set; }
+        public DbSet<Permission> Permissions  { get; set; }
 
     }
 }

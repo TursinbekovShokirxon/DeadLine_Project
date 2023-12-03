@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="background-image">
+    <div class="row">
+        <div class="colm-form">
+            <!-- Ваша форма остается здесь -->
+            <form asp-action="Login" asp-controller="Login" method="post">
+                <div class="form-container">
+                    <input type="text" placeholder="Username" name="Username">
+                    <input type="password" placeholder="Password" name="Password">
+                    <button class="btn-login">Login</button>
+                    <a href="#!">Forgotten password?</a>
+                    <button class="btn-new" asp-action="Index" asp-controller="Login" formmethod="get">Create new Account </button>
+                </div>
+                <p><a href="#"><b>Create a Page</b></a> for a celebrity, brand, or business.</p>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    .background-image {
+        background-image: url('images/deadline-high-resolution-logo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: repeat;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .colm-form {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #000000;
+    }
+
+    .colm-form {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .form-container {
+        margin-bottom: 10px;
+    }
+
+    .btn-login,
+    .btn-new {
+        margin-top: 10px;
+
+</style>

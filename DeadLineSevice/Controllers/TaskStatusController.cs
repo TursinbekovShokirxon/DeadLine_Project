@@ -24,7 +24,7 @@ namespace DeadLineService.Controllers
             return taskStatus? "Статус задания был создан" : "Статуc задания не может быть создан";
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<ActionResult<TaskStatus>> TaskStatusGetByIdAsync(TaskStatusGetByIdModel request)
         {
             var taskStatus = await _mediator.Send(request);
@@ -36,8 +36,9 @@ namespace DeadLineService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<TaskStatus>> TaskStatusGetAll(TaskStatusGetAllModel request)
+        public async Task<ActionResult<TaskStatus>> TaskStatusGetAll()
         {
+            TaskStatusGetAllModel request = new();
             var taskStatusList = await _mediator.Send(request);
 
             if (taskStatusList.Count()==0)
