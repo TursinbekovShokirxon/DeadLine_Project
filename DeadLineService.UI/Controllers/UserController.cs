@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Infrastructure.Handlers.ForUser;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.TeamFoundation.TestManagement.WebApi;
 using Microsoft.VisualStudio.Services.Users;
 using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace DeadLineService.UI.Controllers
@@ -11,9 +13,23 @@ namespace DeadLineService.UI.Controllers
 
         public async Task<IActionResult> GetUsers()
         {
-			IEnumerable<Domain.Models.User> result =await HttpRequestForGetUsers("User/GetAllUser");
+            IEnumerable<Domain.Models.User> result = await HttpRequestForGetUsers("User/GetAllUser");
             return View("~/Views/User/UserIndex.cshtml", result);
         }
+        [HttpGet]
+        public IActionResult CreateUser()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromForm] UserCreateModel user)
+        {
+            var result = await HttpRequetForPost(user, "User/CreateUser");
+            if (result) return View(@"~/Views/MainPage/UserIndex.cshtml");
+            return View("~/Views/Home/Privacy.cshtml");
+        }
+
+        #region HTTP
         private async Task<bool> HttpRequetForPost(object obj, string controllerAndMethodName)
         {
             string jsonData = JsonConvert.SerializeObject(obj);
@@ -47,5 +63,7 @@ namespace DeadLineService.UI.Controllers
                 else return Enumerable.Empty<Domain.Models.User>();
             }
         }
+        #endregion
+
     }
 }
