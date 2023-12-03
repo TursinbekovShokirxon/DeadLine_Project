@@ -9,7 +9,7 @@ namespace DeadLineService.UI.Controllers
     {
         public async Task<IActionResult> GetUsers()
         {
-			IEnumerable<User> result =await HttRequestForGetUsers("User/GetAllUser");
+			IEnumerable<User?>? result =await HttRequestForGetUsers("User/GetAllUser");
             return View("~/Views/User/UserIndex.cshtml", result);
         }
         private async Task<bool> HttpRequetForPost(object obj, string controllerAndMethodName)
@@ -40,7 +40,11 @@ namespace DeadLineService.UI.Controllers
                 {
                     // Успешно принято
                     string responseData = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<IEnumerable<User>>(responseData);
+					IEnumerable<User>? userList = JsonConvert.DeserializeObject<IEnumerable<User>>(responseData, new JsonSerializerSettings
+					{
+						MissingMemberHandling = MissingMemberHandling.Ignore
+					});
+					return userList;
                 }
                 else return Enumerable.Empty<User>();
             }
