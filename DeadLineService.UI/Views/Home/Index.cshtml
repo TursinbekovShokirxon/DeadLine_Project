@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>*@
+
+<div class="row">
+    <div class="colm-logo">
+        <img src="images/deadline-high-resolution-logo.png" alt="Logo">
+        <h2>Помогайте тем кто нуждается.</h2>
+    </div>
+        <div class="colm-form">
+    <form asp-action="Index" asp-controller="Login" method="post">
+            <div class="form-container">
+                <input type="text" placeholder="Username" name="Username">
+                <input type="password" placeholder="Password" name="Password">
+                <button class="btn-login">Login</button>
+                <a href="#">Forgotten password?</a>
+                <button class="btn-new">Create new Account</button>
+            </div>
+            <p><a href="#"><b>Create a Page</b></a> for a celebrity, brand or business.</p>
+    </form>
+        </div>
+</div>
